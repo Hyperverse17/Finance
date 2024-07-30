@@ -1,5 +1,6 @@
 
 from properties import *
+import math
 
 print()
 print("** Simulador de años de retiro **")
@@ -13,14 +14,14 @@ remainYears = Final - retireAge
 
 print()
 
-mainRule       = round((100/remainYears),2) # Porcentaje de la "regla" que se usará
+mainRule       = math.ceil((100/remainYears)) # Porcentaje de la "regla" que se usará
 mainRuleFactor = round((mainRule/100),2)
 
 avgAnnualInfFactor = round((avgAnnualInf/100),2) # Inflación
 avgIntRateFactor   = round((avgIntRate/100),2)   # Tasa promedio de crecimiento de patrimonio
 oldAmount          = (GrandTotal*mainRuleFactor) # Monto de retiro del primer año
 
-for counter in range(0,remainYears + 10): # Ciclo que se repittantas veces como años queden desde la edad de retiro hasta el final
+for counter in range(0,remainYears): # Ciclo que se repittantas veces como años queden desde la edad de retiro hasta el final
     year       = counter + 1
     # Calculo del monto a retirar considerando la inflacion
     if year == 1:
@@ -40,7 +41,7 @@ for counter in range(0,remainYears + 10): # Ciclo que se repittantas veces como 
     if remaining >= 0:
         print("Actual  : $ {:,.2f}".format(GrandTotal) + sMessage2)
         print("Retirar : $ {:,.2f}".format(currAmount) + sMessage )
-        print("Restan  : $ {:,.2f}".format(remaining)+"*")
+        print("Restan  : $ {:,.2f}".format(remaining))
     else:
         print("Actual  : $ {:,.2f}".format(GrandTotal) + sMessage2)
         print("Retirar : $ {:,.2f}".format(currAmount) + sMessage)
