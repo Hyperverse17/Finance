@@ -16,3 +16,18 @@ currDay       = elapsedDays + one
 dailyBudget   = 250 #round(totalBudget/daysDuration,2)
 ################ Formato ######################
 sStars = "**************"
+
+####### Propiedades Calculadora Interes compuesto #######
+# Variables de inicio
+T          = 14.25   # Tasa anualizada
+detailFlag = False
+
+# Variables de incremento
+incrementFlag = False
+incrementDay  = 15 # cada cuantos dias hay incremento
+
+# Calculos iniciales
+t        = T/100
+f        = t/360
+dayCnt   = 0
+counter2 = 0

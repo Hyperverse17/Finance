@@ -2,7 +2,7 @@
 from properties import *
 # Proceso principal
 print()
-initAmount      = int(input("Monto inicial        : "))
+initAmount      = float(input("Monto inicial        : "))
 processDays     = int(input("Total de días        : "))     # Días de proceso
 incrementAmount = int(input("Incremento quincenal : "))
 if incrementAmount > 0:
