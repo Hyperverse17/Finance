@@ -3,15 +3,13 @@ from properties import *
 
 # Nu debit + bx+ + yay + efectivo
 print()
-currentAmount = (200.63 + 477 + 1697.44 + 0) - 108 -150 -500 #int(input("Saldo actual     : ")) # 
-currDay       = int(input("Dia actual : "))
-elapsedDays   = currDay - one
-
-shouldAmount = total-(dailyBudget*elapsedDays)
-difference   = currentAmount-shouldAmount
+currentAmount = int(input("Saldo actual : ")) # 
+currDay       = elapsedDays + one
+shouldAmount  = total-(dailyBudget*elapsedDays)
+difference    = currentAmount-shouldAmount
 
 print()
-print(sStars + " Calculos al dia de hoy " + sStars)
+print(sStars + " Calculos del dia " + str(currDay) + " " + sStars)
 print("Presupuesto diario : ${:,.2f}".format(dailyBudget))
 print("Dias transcurridos : " + str(elapsedDays))
 print()
