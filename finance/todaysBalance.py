@@ -1,5 +1,6 @@
 
 import time
+import os
 from properties import *
 
 
@@ -12,10 +13,12 @@ if remainingDays >= one:
     shouldAmount  = totalBudget-(dailyBudget*elapsedDays)
     difference    = currentAmount-shouldAmount
     print("Dias transcurridos : " + str(elapsedDays))
+    time.sleep(one)
     print()
     print("Presupuesto diario : ${:,.2f}".format(dailyBudget))
     print("Deberias tener     : ${:,.2f}".format(shouldAmount))
     print("Tienes             : ${:,.2f}".format(currentAmount))
+    time.sleep(one)
     print()
     if remainingDays > one:
         if difference > zero:
@@ -33,6 +36,5 @@ if remainingDays >= one:
 else:
      print("Error: Actualizar fecha de pago y fecha de proximo pago")
 print()
-time.sleep(3)
-sEnding = input("Presiona enter para salir...")
+os.system("pause")
 print()
