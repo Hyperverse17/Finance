@@ -1,4 +1,6 @@
 from datetime import date
+############## De Flujo ##############
+goAhead = True
 ############### Operativos ############
 zero         = 0
 one          = 1
