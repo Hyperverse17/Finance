@@ -1,5 +1,5 @@
 
-from properties import *
+from Properties.properties import * # <carpetaOrigen>.<nombreArchivoPy>
 # Proceso principal
 print()
 initAmount      = float(input("Monto inicial        : "))

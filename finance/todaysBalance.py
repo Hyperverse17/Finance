@@ -1,7 +1,7 @@
 
 import time
 import os
-from properties import *
+from Properties.properties import * #<carpetaorigen>.<nombreArchivoPy>
 
 while goAhead == True:
     print()
