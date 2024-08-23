@@ -1,5 +1,7 @@
 
+import time
 from properties import *
+
 
 # Nu debit + bx+ + yay + efectivo
 print()
@@ -30,4 +32,7 @@ if remainingDays >= one:
         print("Llegaste al final, hoy puedes gastar: ${:,.2f}".format(currentAmount))
 else:
      print("Error: Actualizar fecha de pago y fecha de proximo pago")
+print()
+time.sleep(3)
+sEnding = input("Presiona enter para salir...")
 print()
