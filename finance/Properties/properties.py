@@ -21,7 +21,7 @@ sStars = "**************"
 
 ####### Propiedades Calculadora Interes compuesto #######
 # Variables de inicio
-T          = 14.25   # Tasa anualizada
+T          = 13.25   # Tasa anualizada
 detailFlag = False
 
 # Variables de incremento
