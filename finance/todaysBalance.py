@@ -1,7 +1,7 @@
 
 import time
 import os
-from Properties.properties import * #<carpetaorigen>.<nombreArchivoPy>
+from Settings.properties import * #<carpetaorigen>.<nombreArchivoPy>
 
 while goAhead == True:
     print()
@@ -34,19 +34,20 @@ while goAhead == True:
             print("Llegaste al final, hoy puedes gastar: ${:,.2f}".format(currentAmount))
     else:
         print("Error: Actualizar fecha de pago y fecha de proximo pago")
+        goAhead = False
 
     print()
     os.system("pause")
-    print()
-
-    userAnswer = input("¿Deseas repetir el proceso? (s/n): ")
-    if userAnswer == 's' or userAnswer == 'S':
-        goAhead = True
-        os.system("cls")
-    else:
-        goAhead = False
+    
+    if goAhead == True:
+        print()
+        userAnswer = input("¿Deseas repetir el proceso? (s/n): ")
+        if userAnswer == 's' or userAnswer == 'S':   
+            os.system("cls")
+        else:
+            goAhead = False
 
 print()
-print("*** Fin del programa ***")
+print("***** Fin del programa *****")
 time.sleep(2)
 print()
