@@ -4,7 +4,7 @@ goAhead = True
 ############### Operativos ############
 zero         = 0
 one          = 1
-totalBudget  = 4000
+totalBudget  = 3600
 ########## Calculo con fechas ###########
 paymentDay    = date(2024,8,26)  # Fecha de pago [Tipo date]
 nextPayDay    = date(2024,9,11)  # Proxima fecha de pago

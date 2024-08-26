@@ -48,6 +48,6 @@ while goAhead == True:
             goAhead = False
 
 print()
-print("***** Fin del programa *****")
+print("******** Fin del programa ********")
 time.sleep(2)
 print()
