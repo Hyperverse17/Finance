@@ -5,19 +5,22 @@ from Settings.properties import * #<carpetaorigen>.<nombreArchivoPy>
 
 while goAhead == True:
     print()
-    print(sStars + " Calculos del dia " + str(currDay) +" ["+ str(today) + "] " + sStars)
+    print(sStars + " Calculos del dia " + str(currDay) +" ("+ sDateMarkFmt + ") " + sStars)
     print()
     if remainingDays >= one:
         currentAmount = float(input("Saldo actual       : ")) # Nu debit + bx+ + yay + efectivo
+        os.system("cls")
         shouldAmount  = totalBudget-(dailyBudget*elapsedDays)
         difference    = currentAmount-shouldAmount
-        print("Dias transcurridos : " + str(elapsedDays))
-        time.sleep(one)
         print()
+        print("Dias transcurridos : " + str(elapsedDays)+" de " + str(daysDuration))
+        print("Saldo Inicial      : {:,.2f}".format(totalBudget))
         print("Presupuesto diario : ${:,.2f}".format(dailyBudget))
+        time.sleep(one)
+        print("--------------------------------") 
         print("Deberias tener     : ${:,.2f}".format(shouldAmount))
         print("Tienes             : ${:,.2f}".format(currentAmount))
-        time.sleep(one)
+        time.sleep(2)
         print()
         if remainingDays > one:
             if difference > zero:

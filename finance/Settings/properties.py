@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 ############## De Flujo ##############
 goAhead = True
 ############### Operativos ############
@@ -9,6 +9,8 @@ totalBudget  = 3600
 paymentDay    = date(2024,8,26)  # Fecha de pago [Tipo date]
 nextPayDay    = date(2024,9,11)  # Proxima fecha de pago
 today         = date.today()     # Fecha de hoy
+dateTimeMark  = datetime.now() #Objeto tipo date, time
+sDateMarkFmt  = dateTimeMark.strftime("%d/%m/%Y") # Funcion para dar formato a objetos tipo date y date time. Genera string YY MM DD
 deltaDays1    = today-paymentDay # Diferencia entre fechas [Tipo Date]
 deltaDays2    = nextPayDay-paymentDay
 elapsedDays   = deltaDays1.days # el atributo .days devuelve un entero operable
