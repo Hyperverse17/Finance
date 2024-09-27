@@ -6,18 +6,19 @@ from Settings.properties import * #<carpetaorigen>.<nombreArchivoPy>
 while goAhead == True:
     print()
     print(sStars + " Calculos del dia " + str(currDay) +" ("+ sDateMarkFmt + ") " + sStars)
-    print()
     if remainingDays >= one:
         currentAmount = float(input("Saldo actual       : ")) # Nu debit + bx+ + yay + efectivo
         os.system("cls")
         shouldAmount  = totalBudget-(dailyBudget*elapsedDays)
         difference    = currentAmount-shouldAmount
         print()
+        print(sStars + " Calculos del dia " + str(currDay) +" ("+ sDateMarkFmt + ") " + sStars)
+        print()
         print("Dias transcurridos : " + str(elapsedDays)+" de " + str(daysDuration))
         print("Saldo Inicial      : {:,.2f}".format(totalBudget))
         print("Presupuesto diario : ${:,.2f}".format(dailyBudget))
         time.sleep(one)
-        print("--------------------------------") 
+        print(sDottedLine) 
         print("Deberias tener     : ${:,.2f}".format(shouldAmount))
         print("Tienes             : ${:,.2f}".format(currentAmount))
         time.sleep(2)
@@ -39,18 +40,9 @@ while goAhead == True:
         print("Error: Actualizar fecha de pago y fecha de proximo pago")
         goAhead = False
 
-    print()
-    os.system("pause")
-    
-    if goAhead == True:
-        print()
-        userAnswer = input("¿Deseas repetir el proceso? (s/n): ")
-        if userAnswer == 's' or userAnswer == 'S':   
-            os.system("cls")
-        else:
-            goAhead = False
+    goAhead = WantToRepeat(goAhead)
 
 print()
-print("******** Fin del programa ********")
+print(sStars + " Fin del programa " + sStars)
 time.sleep(2)
 print()

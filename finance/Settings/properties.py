@@ -1,15 +1,16 @@
+import os
 from datetime import date, datetime
 ############## De Flujo ##############
 goAhead = True
 ############### Operativos ############
 zero         = 0
 one          = 1
-totalBudget  = 3600
+totalBudget  = 4000
 ########## Calculo con fechas ###########
-paymentDay    = date(2024,8,26)  # Fecha de pago [Tipo date]
-nextPayDay    = date(2024,9,11)  # Proxima fecha de pago
-today         = date.today()     # Fecha de hoy
-dateTimeMark  = datetime.now() #Objeto tipo date, time
+paymentDay    = date(2024,9,12) # Fecha de pago [Tipo date]
+nextPayDay    = date(2024,9,26) # Proxima fecha de pago
+today         = date.today()    # Fecha de hoy
+dateTimeMark  = datetime.now()  # Objeto tipo date, time
 sDateMarkFmt  = dateTimeMark.strftime("%d/%m/%Y") # Funcion para dar formato a objetos tipo date y date time. Genera string YY MM DD
 deltaDays1    = today-paymentDay # Diferencia entre fechas [Tipo Date]
 deltaDays2    = nextPayDay-paymentDay
@@ -19,19 +20,38 @@ remainingDays = daysDuration-elapsedDays
 currDay       = elapsedDays + one
 dailyBudget   = round(totalBudget/daysDuration,2)
 ################ Formato ######################
-sStars = "**************"
-
+sStars      = "**************"
+sDottedLine = "---------------------------------"
 ####### Propiedades Calculadora Interes compuesto #######
-# Variables de inicio
-T          = 13.25   # Tasa anualizada
-detailFlag = False
+T = 13.25   # Tasa anualizada
+incrementDay = 15 # cada cuantos dias hay incremento
+t = T/100
+f = t/360
 
-# Variables de incremento
-incrementFlag = False
-incrementDay  = 15 # cada cuantos dias hay incremento
+#################### Funciones Auxiliares #################
+def clearVars():
+    initValues = []
+    detailFlag    = False
+    incrementFlag = False
+#   Calculos iniciales
+    dayCnt   = 0
+    counter2 = 0
+    # Arrreglo para retornar los valores
+    initValues.append(detailFlag)    # detailFlag posicion 0
+    initValues.append(incrementFlag) # posicion 1
+    initValues.append(dayCnt)        # posicion 2
+    initValues.append(counter2)      # posicion 3
+    
+    return initValues
 
-# Calculos iniciales
-t        = T/100
-f        = t/360
-dayCnt   = 0
-counter2 = 0
+def WantToRepeat(goAhead):
+    print()
+    os.system("pause")
+    os.system("cls")
+    if goAhead == True:
+        userAnswer = input("Deseas repetir el proceso? (s/n): ")
+        if userAnswer == 's' or userAnswer == 'S':
+            os.system("cls")
+        else:
+            goAhead = False
+    return goAhead
