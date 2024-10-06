@@ -25,24 +25,28 @@ while goAhead == True:
         print()
         if remainingDays > one:
             if difference > zero:
-                print("Felicidades, hoy puedes gastar tus ${:,.2f}".format(dailyBudget) + " diarios mas ${:,.2f}".format(difference))        
+                print("Felicidades 🥳 hoy puedes gastar tus ${:,.2f}".format(dailyBudget) + " diarios mas ${:,.2f}".format(difference))     
             elif difference == zero:
-                print("Vas bien, hoy solo puedes gastar tu presupuesto diario: ${:,.2f}".format(dailyBudget))
+                print("Vas bien 🤓 hoy solo puedes gastar tu presupuesto diario: ${:,.2f}".format(dailyBudget))
             elif difference < zero:
                 currentDaily = (dailyBudget + difference)
                 if currentDaily > zero:
-                    print("Cuidado, hoy solo tienes: ${:,.2f}".format(currentDaily))
+                    print("Cuidado 😨 hoy solo tienes: ${:,.2f}".format(currentDaily))
                 elif currentDaily <= zero:
-                    print("Mejor no gastes nada!")
+                    print("Mejor no gastes nada ❗")
         elif remainingDays == one:
-            print("Llegaste al final, hoy puedes gastar: ${:,.2f}".format(currentAmount))
+            print("Llegaste al final 😎 hoy puedes gastar: ${:,.2f}".format(currentAmount))
     else:
-        print("Error: Actualizar fecha de pago y fecha de proximo pago")
+        print("Error: Actualizar fecha de pago y fecha de proximo pago 🤔 ")
         goAhead = False
 
     goAhead = WantToRepeat(goAhead)
 
 print()
+<<<<<<< HEAD
 print(sStars + " Fin del programa " + sStars)
+=======
+print(sStars + " Fin del programa 🤠 " + sStars)
+>>>>>>> upg
 time.sleep(2)
 print()
