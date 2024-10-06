@@ -43,10 +43,6 @@ while goAhead == True:
     goAhead = WantToRepeat(goAhead)
 
 print()
-<<<<<<< HEAD
-print(sStars + " Fin del programa " + sStars)
-=======
 print(sStars + " Fin del programa 🤠 " + sStars)
->>>>>>> upg
 time.sleep(2)
 print()
