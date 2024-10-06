@@ -1,3 +1,4 @@
+import os
 from datetime import date, datetime
 ############## De Flujo ##############
 goAhead = True
@@ -6,10 +7,10 @@ zero         = 0
 one          = 1
 totalBudget  = 3600
 ########## Calculo con fechas ###########
-paymentDay    = date(2024,8,26)  # Fecha de pago [Tipo date]
-nextPayDay    = date(2024,9,11)  # Proxima fecha de pago
-today         = date.today()     # Fecha de hoy
-dateTimeMark  = datetime.now() #Objeto tipo date, time
+paymentDay    = date(2024,9,26) # Fecha de pago [Tipo date]
+nextPayDay    = date(2024,10,11) # Proxima fecha de pago
+today         = date.today()    # Fecha de hoy
+dateTimeMark  = datetime.now()  # Objeto tipo date, time
 sDateMarkFmt  = dateTimeMark.strftime("%d/%m/%Y") # Funcion para dar formato a objetos tipo date y date time. Genera string YY MM DD
 deltaDays1    = today-paymentDay # Diferencia entre fechas [Tipo Date]
 deltaDays2    = nextPayDay-paymentDay
@@ -35,3 +36,15 @@ t        = T/100
 f        = t/360
 dayCnt   = 0
 counter2 = 0
+
+def WantToRepeat(goAhead):
+    print()
+    os.system("pause")
+    os.system("cls")
+    if goAhead == True:
+        userAnswer = input("Deseas repetir el proceso? (s/n) 🤔:")
+        if userAnswer == 's' or userAnswer == 'S':
+            os.system("cls")
+        else:
+            goAhead = False
+    return goAhead
