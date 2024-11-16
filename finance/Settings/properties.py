@@ -6,10 +6,10 @@ addFlag = True
 ############### Operativos ############
 zero         = 0
 one          = 1
-totalBudget  = 4000
+totalBudget  = 4000 
 ########## Calculo con fechas ###########
-paymentDay    = date(2024,10,11) # Fecha de pago [Tipo date]
-nextPayDay    = date(2024,10,25) # Proxima fecha de pago
+paymentDay    = date(2024,11,12) # Fecha de pago [Tipo date]
+nextPayDay    = date(2024,11,26) # Proxima fecha de pago
 today         = date.today()    # Fecha de hoy
 dateTimeMark  = datetime.now()  # Objeto tipo date, time
 sDateMarkFmt  = dateTimeMark.strftime("%d/%m/%Y") # Funcion para dar formato a objetos tipo date y date time. Genera string YY MM DD
@@ -26,7 +26,7 @@ sStars      = "**************"
 sDottedLine = "---------------------------------"
 fmtCnt      = zero
 ####### Propiedades Calculadora Interes compuesto #######
-T = 13.25   # Tasa anualizada
+T = 12.5   # Tasa anualizada
 incrementDay = 15 # cada cuantos dias hay incremento
 t = T/100
 f = t/360
