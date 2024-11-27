@@ -8,8 +8,8 @@ zero         = 0
 one          = 1
 totalBudget  = 4000 
 ########## Calculo con fechas ###########
-paymentDay    = date(2024,11,12) # Fecha de pago [Tipo date]
-nextPayDay    = date(2024,11,26) # Proxima fecha de pago
+paymentDay    = date(2024,11,26) # Fecha de pago [Tipo date]
+nextPayDay    = date(2024,12,11) # Proxima fecha de pago
 today         = date.today()    # Fecha de hoy
 dateTimeMark  = datetime.now()  # Objeto tipo date, time
 sDateMarkFmt  = dateTimeMark.strftime("%d/%m/%Y") # Funcion para dar formato a objetos tipo date y date time. Genera string YY MM DD
@@ -71,4 +71,18 @@ def addition():
             addFlag = False
         totalSum += float(currAmt)
     return totalSum
+
+########### Errors ##############
+class updateDateError(Exception):
+    def __init__(self) -> None:
+        self.message = "Actualizar fecha de pago y fecha de próximo pago"
+        super().__init__(self.message)
+
+class greaterThanZeroError(Exception):
+    def __init__(self) -> None:
+        self.message = "El monto total debe ser mayor que cero"
+        super().__init__(self.message)
+
+dateError = updateDateError()
+zeroValueError = greaterThanZeroError()
     
