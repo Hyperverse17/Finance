@@ -1,6 +1,7 @@
 
 import time
 from Settings.properties import * # <carpetaOrigen>.<nombreArchivoPy>
+from Settings.functions import *
 # Proceso principal 
 
 try:

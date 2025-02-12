@@ -8,8 +8,8 @@ zero         = 0
 one          = 1
 totalBudget  = 4000 
 ########## Calculo con fechas ###########
-paymentDay    = date(2024,11,26) # Fecha de pago [Tipo date]
-nextPayDay    = date(2024,12,11) # Proxima fecha de pago
+paymentDay    = date(2025,1,24) # Fecha de pago [Tipo date]
+nextPayDay    = date(2025,2,12) # Proxima fecha de pago
 today         = date.today()    # Fecha de hoy
 dateTimeMark  = datetime.now()  # Objeto tipo date, time
 sDateMarkFmt  = dateTimeMark.strftime("%d/%m/%Y") # Funcion para dar formato a objetos tipo date y date time. Genera string YY MM DD
@@ -52,31 +52,6 @@ t        = T/100
 f        = t/360
 dayCnt   = 0
 counter2 = 0
-
-def WantToRepeat(goAhead):
-    print()
-    os.system("pause")
-    os.system("cls")
-    if goAhead == True:
-        userAnswer = input("Deseas repetir el proceso? (s/n) 🤔 :")
-        if userAnswer == 's' or userAnswer == 'S':
-            os.system("cls")
-        else:
-            goAhead = False
-    return goAhead
-
-def addition():
-    addFlag = True
-    fmtCnt  = zero
-    totalSum = zero
-    while addFlag:
-        fmtCnt += 1
-        currAmt = input("Ingresa monto " + str(fmtCnt) + ": ") # Nu debit + bx+ + yay + efectivo
-        if currAmt == "":
-            currAmt = 0
-            addFlag = False
-        totalSum += float(currAmt)
-    return totalSum
 
 ########### Errors ##############
 class updateDateError(Exception):

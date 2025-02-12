@@ -2,7 +2,8 @@
 import time
 import os
 from Settings.properties import * #<carpetaorigen>.<nombreArchivoPy>
-    
+from Settings.functions import *
+
 while goAhead:
     print()
     print(sStars + " Calculos del dia " + str(currDay) +" ("+ sDateMarkFmt + ") " + sStars)
@@ -14,30 +15,31 @@ while goAhead:
             shouldAmount  = totalBudget-(dailyBudget*elapsedDays)
             difference    = currentAmount-shouldAmount
             print()
-            print(sStars + " Calculos del dia " + str(currDay) +" ("+ sDateMarkFmt + ") " + sStars)
+            print(loggingBypass(sStars + " Calculos del dia " + str(currDay) +" ("+ sDateMarkFmt + ") " + sStars))
             print()
-            print("Dias transcurridos : " + str(elapsedDays)+" de " + str(daysDuration))
-            print("Saldo Inicial      : {:,.2f}".format(totalBudget))
-            print("Presupuesto diario : ${:,.2f}".format(dailyBudget))
+            print(loggingBypass("Dias transcurridos : " + str(elapsedDays)+" de " + str(daysDuration)))
+            print(loggingBypass("Saldo Inicial      : {:,.2f}".format(totalBudget)))
+            print(loggingBypass("Presupuesto diario : ${:,.2f}".format(dailyBudget)))
             time.sleep(one)
             print(sDottedLine) 
-            print("Deberias tener     : ${:,.2f}".format(shouldAmount))
-            print("Tienes             : ${:,.2f}".format(currentAmount))
+            print(loggingBypass("Deberias tener     : ${:,.2f}".format(shouldAmount)))
+            print(loggingBypass("Tienes             : ${:,.2f}".format(currentAmount)))
             time.sleep(2)
             print()
             if remainingDays > one:
                 if difference > zero:
-                    print("Felicidades, hoy puedes gastar tus ${:,.2f}".format(dailyBudget) + " diarios mas ${:,.2f}".format(difference))        
+                    print(loggingBypass("Felicidades, hoy puedes gastar tus ${:,.2f}".format(dailyBudget) + " diarios mas ${:,.2f}".format(difference)))       
                 elif difference == zero:
-                    print("Vas bien, hoy solo puedes gastar tu presupuesto diario: ${:,.2f}".format(dailyBudget))
+                    print(loggingBypass("Vas bien, hoy solo puedes gastar tu presupuesto diario: ${:,.2f}".format(dailyBudget)))
                 elif difference < zero:
                     currentDaily = (dailyBudget + difference)
                     if currentDaily > zero:
-                        print("Cuidado, hoy solo tienes: ${:,.2f}".format(currentDaily))
+                        print(loggingBypass("Cuidado, hoy solo tienes: ${:,.2f}".format(currentDaily)))
                     elif currentDaily <= zero:
-                        print("Mejor no gastes nada!")
+                        print(loggingBypass("Mejor no gastes nada!"))
             elif remainingDays == one:
-                print("Llegaste al final, hoy puedes gastar: ${:,.2f}".format(currentAmount))
+                print(loggingBypass("Llegaste al final, hoy puedes gastar: ${:,.2f}".format(currentAmount)))
+                
         else:
             raise greaterThanZeroError  
     else:
