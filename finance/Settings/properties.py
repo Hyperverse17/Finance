@@ -6,10 +6,10 @@ addFlag = True
 ############### Operativos ############
 zero         = 0
 one          = 1
-totalBudget  = 3500
+totalBudget  = 3500 
 ########## Calculo con fechas ###########
-paymentDay    = date(2025,2,12) # Fecha de pago [Tipo date]
-nextPayDay    = date(2025,2,27) # Proxima fecha de pago
+paymentDay    = date(2025,2,26) # Fecha de pago [Tipo date]
+nextPayDay    = date(2025,3,13) # Proxima fecha de pago
 today         = date.today()    # Fecha de hoy
 dateTimeMark  = datetime.now()  # Objeto tipo date, time
 sDateMarkFmt  = dateTimeMark.strftime("%d/%m/%Y") # Funcion para dar formato a objetos tipo date y date time. Genera string YY MM DD
@@ -26,7 +26,7 @@ sStars      = "**************"
 sDottedLine = "---------------------------------"
 fmtCnt      = zero
 ####### Propiedades Calculadora Interes compuesto #######
-T = 12.5   # Tasa anualizada
+T = 12   # Tasa anualizada
 incrementDay = 15 # cada cuantos dias hay incremento
 t = T/100
 f = t/360
@@ -56,7 +56,7 @@ counter2 = 0
 ########### Errors ##############
 class updateDateError(Exception):
     def __init__(self) -> None:
-        self.message = "Actualizar fecha de pago y fecha de próximo pago"
+        self.message = "Actualizar fecha de pago y fecha de proximo pago"
         super().__init__(self.message)
 
 class greaterThanZeroError(Exception):
