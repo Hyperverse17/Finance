@@ -4,7 +4,7 @@ from Settings.properties import *
 from typing import Union
 
 logPath = "./logs/"
-fileName = "log.txt"
+fileName = "log_2502_1.txt"
 filePointer = logPath + fileName
 
 def loggerArgs(filePointer):
