@@ -40,7 +40,7 @@ try:
         print(str1 + str2)
         print()
         
-        print(f"Emergencias    > ${emerAmount:,.2f}")
+        print(f"Emergencias    > $ {emerAmount:,.2f}")
         print(f"Renta Variable > $ {etfAmount:,.2f}")
         print(f"Renta Fija     > $ {cetesAmount:,.2f}")
         print()
