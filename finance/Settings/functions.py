@@ -2,7 +2,7 @@ import os
 import functools
 from Settings.properties import *
 from typing import Union
-from datetime import date, datetime
+from datetime import datetime
 import calendar
 
 workingDate = today.strftime("%y-%m-%d ")
@@ -47,12 +47,12 @@ def WantToRepeat(goAhead:bool) -> bool:
     os.system("pause")
     os.system("cls")
     if goAhead == True:
-        userAnswer = input("Deseas repetir el proceso? (s/n) 🤔 :")
+        userAnswer = input("Deseas repetir el proceso? (s/n) 🤔 : ")
         if userAnswer == 's' or userAnswer == 'S':
             os.system("cls")
         else:
             goAhead = False
-        logging("Repeat : " + str(goAhead))
+
     return goAhead
 
 def addition() -> Union[int, float]:
@@ -68,4 +68,38 @@ def addition() -> Union[int, float]:
             addFlag = False
         totalSum += float(currAmt)
     return totalSum
+
+def getAge(birthDay:str) -> int:
+    """Recibe un string con una fecha de nacimiento YYYY-MM-DD y devuelve un entero con la edad en años"""
+    today     = datetime.today()
+    birthDate = datetime.strptime(birthDay, "%Y-%m-%d")
+    age = int(today.year - birthDate.year - ((today.month, today.day) < (birthDate.month, birthDate.day))) # Se hace un comparativo entre mes y día (del día) y de mes y dia del cumpleaños, si el resultado es true, al evaluarse se considera como 1, si es false, 0
+    return age
+
+def toInvest():
+    myAge = getAge(myBirthDay)
+    toInvestPerc = investRule-myAge
+    return toInvestPerc
+
+def emergencies(total):
+    """Regresa el porcentaje que debe ser destinado al fondo de emergencias"""
+    emePerces = (100,75,50,25,15,10)
+    value1  = total//monthly
+    if value1 > 0:
+        if (value1 >= 1 and value1 < 3): # [1,3) MDG
+            position = 1
+        elif (value1 >= 3 and value1 < 6): # [3,6) MDG
+            position = 2
+        elif (value1 >= 6 and value1 < 12): # [6,12) MDG
+            position = 3
+        elif (value1 >= 12 and value1 < 24): # [12, 24) MDG
+            position = 4
+        elif value1 >= 24: # [24, inf) MDG
+            position = 5
+    else: # cero meses de tus gastos
+        position = 0
+
+    emerPerc = emePerces[position]
+    
+    return emerPerc
 

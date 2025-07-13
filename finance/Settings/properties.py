@@ -6,7 +6,7 @@ addFlag = True
 ############### Operativos ############
 zero         = 0
 one          = 1
-totalBudget  = 3500 
+totalBudget  = 3500
 ########## Calculo con fechas ###########
 paymentDay    = date(2025,7,11) # Fecha de pago [Tipo date]
 nextPayDay    = date(2025,7,28) # Proxima fecha de pago
@@ -26,7 +26,7 @@ sStars      = "**************"
 sDottedLine = "---------------------------------"
 fmtCnt      = zero
 ####### Propiedades Calculadora Interes compuesto #######
-T = 12   # Tasa anualizada
+T = 9   # Tasa anualizada
 incrementDay = 15 # cada cuantos dias hay incremento
 t = T/100
 f = t/360
@@ -52,6 +52,11 @@ t        = T/100
 f        = t/360
 dayCnt   = 0
 counter2 = 0
+monthly  = 34600 # julio 2025
+
+############ Invest Rule #########
+investRule = 110 # Aggresive!
+myBirthDay = "1991-07-17"
 
 ########### Errors ##############
 class updateDateError(Exception):
