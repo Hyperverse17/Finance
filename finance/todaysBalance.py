@@ -1,10 +1,10 @@
-
-import time
-import os
-from Settings.properties import * #<carpetaorigen>.<nombreArchivoPy>
-from Settings.functions import *
-
 try:
+    import time
+    import os
+    from Settings.properties import * #<carpetaorigen>.<nombreArchivoPy>
+    from Settings.functions import *
+    scriptName = os.path.basename(__file__)
+
     while goAhead:
         print()
         print(sStars + "Calculos del dia " + str(currDay) +" ("+ sDateMarkFmt + ") " + sStars)
@@ -16,30 +16,30 @@ try:
                 shouldAmount  = totalBudget-(dailyBudget*elapsedDays)
                 difference    = currentAmount-shouldAmount
                 print()
-                print(logging("Calculos del dia " + str(currDay) +" ("+ sDateMarkFmt + ")"))
+                print(log("Calculos del dia " + str(currDay) +" ("+ sDateMarkFmt + ")",scriptName))
                 print()
-                print(logging("Dias transcurridos : " + str(elapsedDays)+" de " + str(daysDuration)))
-                print(logging("Saldo Inicial      : {:,.2f}".format(totalBudget)))
-                print(logging("Presupuesto diario : ${:,.2f}".format(dailyBudget)))
+                print(log("Dias transcurridos : " + str(elapsedDays)+" de " + str(daysDuration),scriptName))
+                print(log("Saldo Inicial      : {:,.2f}".format(totalBudget),scriptName))
+                print(log("Presupuesto diario : ${:,.2f}".format(dailyBudget),scriptName))
                 time.sleep(one)
                 print(sDottedLine) 
-                print(logging("Deberias tener     : ${:,.2f}".format(shouldAmount)))
-                print(logging("Tienes             : ${:,.2f}".format(currentAmount)))
+                print(log("Deberias tener     : ${:,.2f}".format(shouldAmount),scriptName))
+                print(log("Tienes             : ${:,.2f}".format(currentAmount),scriptName))
                 time.sleep(2)
                 print()
                 if remainingDays > one:
                     if difference > zero:
-                        print(logging("Felicidades, hoy puedes gastar tus ${:,.2f}".format(dailyBudget) + " diarios mas ${:,.2f}".format(difference)))       
+                        print(log("Felicidades, hoy puedes gastar tus ${:,.2f}".format(dailyBudget) + " diarios mas ${:,.2f}".format(difference),scriptName))       
                     elif difference == zero:
-                        print(logging("Vas bien, hoy solo puedes gastar tu presupuesto diario: ${:,.2f}".format(dailyBudget)))
+                        print(log("Vas bien, hoy solo puedes gastar tu presupuesto diario: ${:,.2f}".format(dailyBudget),scriptName))
                     elif difference < zero:
                         currentDaily = (dailyBudget + difference)
                         if currentDaily > zero:
-                            print(logging("Cuidado, hoy solo tienes: ${:,.2f}".format(currentDaily)))
+                            print(log("Cuidado, hoy solo tienes: ${:,.2f}".format(currentDaily),scriptName))
                         elif currentDaily <= zero:
-                            print(logging("Mejor no gastes nada!"))
+                            print(log("Mejor no gastes nada!",scriptName))
                 elif remainingDays == one:
-                    print(logging("Llegaste al final, hoy puedes gastar: ${:,.2f}".format(currentAmount)))
+                    print(log("Llegaste al final, hoy puedes gastar: ${:,.2f}".format(currentAmount),scriptName))
                 
             else:
                 raise zeroValueError  
@@ -49,13 +49,17 @@ try:
         goAhead = WantToRepeat(goAhead)
 
 except(greaterThanZeroError):
-    print(logging(zeroValueError.message))
+    print(log(zeroValueError.message,scriptName))
 
 except(updateDateError):
-    print(logging(dateError.message))
+    print(log(dateError.message,scriptName))
+
+except(FileNotFoundError) as error:
+    print("Parece que algo salio mal con el archivo")
+    print(f"{error}")
 
 finally:
     print()
-    print(logging(sStars + " Fin del programa " + sStars))
+    print(log(sStars + " Fin del programa " + sStars,scriptName))
     time.sleep(2)
     print()
