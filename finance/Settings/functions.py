@@ -120,6 +120,6 @@ def splitter(total):
         position = 0
 
     emerPerc  = emePerces[position]
-    nextLevel = mdgs[position]
+    nextLevel = int(mdgs[position])
     
-    return emerPerc
+    return emerPerc, nextLevel

@@ -23,15 +23,26 @@ try:
         print(log(f"Gastos Mensuales     : ${monthly:,.2f}",scriptName))
         print(log(f"Fondo de Emergencias : ${emerFunds:,.2f}",scriptName) + f" ({mdg} MDG)")
         log(f"MDG                  : {mdg}",scriptName)
-        log(f"Se agrega            : ${toAdd:,.2f}",scriptName)
         print(log(f"Edad                 : {getAge(myBirthDay)}",scriptName) + " Años")
         time.sleep(1)
         print()
         
 #       Cálculos
-        emerPerc    = splitter(emerFunds)
-        emergencias = toAdd*(splitter(emerFunds)/100)
-        inversion   = toAdd*((1-(splitter(emerFunds)/100)))
+        emerPerc, nextLevel = splitter(emerFunds)
+        toJump = nextLevel-emerFunds
+           
+        if toAdd > toJump:
+            log("*** Ajuste Fondo de Emergencias ***",scriptName)
+            log(f"Se agrega            : ${toJump:,.2f}",scriptName)
+            print(f"Primero agrega ${toJump:,.2f} a Emergencias y después")
+            toAdd     = toAdd - toJump
+            emerFunds = emerFunds + toJump
+            emerPerc, nextLevel = splitter(emerFunds)
+        
+        log(f"Se trabaja con       : ${toAdd:,.2f}",scriptName)
+            
+        emergencias = toAdd*(emerPerc/100)
+        inversion   = toAdd*((1-(emerPerc/100)))
          
         etfPerc   = toInvest()/100
         cetesPerc = 1-(toInvest()/100)
@@ -40,11 +51,11 @@ try:
         etfAmount = round(inversion*etfPerc,2)
         cetesAmount = round(inversion*cetesPerc,2)
 
-        str1 = f"Destina los ${toAdd:,.2f} de la siguiente manera: "
-        str2 = f"{splitter(emerFunds)}% a Emergencias y {(100-splitter(emerFunds))}% a Inversiones"
-        print(str1 + str2)
-        log(f"Emergencias          : {round(splitter(emerFunds),2)}%",scriptName)
-        log(f"Inversiones          : {round(100-(splitter(emerFunds)),2)}%",scriptName)
+        print(f"Destina los ${toAdd:,.2f} de la siguiente manera: ")
+        print()
+        print(f"{emerPerc}% a Emergencias y {(100-emerPerc)}% a Inversiones")
+        log(f"Emergencias          : {round(emerPerc,2)}%",scriptName)
+        log(f"Inversiones          : {round(100-(emerPerc),2)}%",scriptName)
         log(f"  - Renta variable   : {round(toInvest(),2)}%",scriptName)
         log(f"  - Renta fija       : {round((100-toInvest()),2)}%",scriptName)
         print(log("",scriptName))
@@ -53,7 +64,8 @@ try:
         log(f"Total inversiones    : ${inversion:,.2f}",scriptName)
         print(log(f" - Renta Variable    : ${etfAmount:,.2f}",scriptName))
         print(log(f" - Renta Fija        : ${cetesAmount:,.2f}",scriptName))
-        print()
+        print(log("",scriptName))
+        print(log(f"Siguiente objetivo   : ${nextLevel:,.2f}",scriptName))
         goAhead = WantToRepeat(goAhead)
         log(f"Repeat: {goAhead}",scriptName)
 
