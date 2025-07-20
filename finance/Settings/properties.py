@@ -48,11 +48,12 @@ def clearVars():
     return initValues
 
 # Calculos iniciales
-t        = T/100
-f        = t/360
-dayCnt   = 0
-counter2 = 0
-monthly  = 34600 # julio 2025
+t             = T/100
+f             = t/360
+dayCnt        = 0
+counter2      = 0
+monthly       = 34600 # julio 2025
+symbolicLimit = 10000 # mdgs simbólico límite
 
 ############ Invest Rule #########
 investRule = 110 # Aggresive!

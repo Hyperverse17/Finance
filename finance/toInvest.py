@@ -2,7 +2,7 @@ try:
     import os
     import time
     from Settings.properties import monthly, myBirthDay, sStars, investRule
-    from Settings.functions import toInvest, emergencies, WantToRepeat, getAge, log
+    from Settings.functions import toInvest, splitter, WantToRepeat, getAge, log
     scriptName = os.path.basename(__file__)
     
     goAhead = True
@@ -29,9 +29,9 @@ try:
         print()
         
 #       Cálculos
-        emerPerc    = emergencies(emerFunds)
-        emergencias = toAdd*(emergencies(emerFunds)/100)
-        inversion   = toAdd*((1-(emergencies(emerFunds)/100)))
+        emerPerc    = splitter(emerFunds)
+        emergencias = toAdd*(splitter(emerFunds)/100)
+        inversion   = toAdd*((1-(splitter(emerFunds)/100)))
          
         etfPerc   = toInvest()/100
         cetesPerc = 1-(toInvest()/100)
@@ -41,10 +41,10 @@ try:
         cetesAmount = round(inversion*cetesPerc,2)
 
         str1 = f"Destina los ${toAdd:,.2f} de la siguiente manera: "
-        str2 = f"{emergencies(emerFunds)}% a Emergencias y {(100-emergencies(emerFunds))}% a Inversiones"
+        str2 = f"{splitter(emerFunds)}% a Emergencias y {(100-splitter(emerFunds))}% a Inversiones"
         print(str1 + str2)
-        log(f"Emergencias          : {round(emergencies(emerFunds),2)}%",scriptName)
-        log(f"Inversiones          : {round(100-(emergencies(emerFunds)),2)}%",scriptName)
+        log(f"Emergencias          : {round(splitter(emerFunds),2)}%",scriptName)
+        log(f"Inversiones          : {round(100-(splitter(emerFunds)),2)}%",scriptName)
         log(f"  - Renta variable   : {round(toInvest(),2)}%",scriptName)
         log(f"  - Renta fija       : {round((100-toInvest()),2)}%",scriptName)
         print(log("",scriptName))

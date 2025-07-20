@@ -90,25 +90,36 @@ def toInvest():
     toInvestPerc = investRule-myAge
     return toInvestPerc
 
-def emergencies(total):
+def getMdgs():
+    months = (  1, 3, 6,12,24,symbolicLimit)
+    mdgs   = [x * monthly for x in months]
+    return mdgs
+
+def splitter(total):
     """Regresa el porcentaje que debe ser destinado al fondo de emergencias"""
     emePerces = (100,75,50,25,15,10)
-    value1  = total//monthly
-    if value1 > 0:
-        if (value1 >= 1 and value1 < 3): # [1,3) MDG
+    mdgs      = getMdgs()
+    
+    if total >= mdgs[0]:
+        if (total >= mdgs[0] and total < mdgs[1]): # [1,3) MDG
             position = 1
-        elif (value1 >= 3 and value1 < 6): # [3,6) MDG
+
+        elif (total >= mdgs[1] and total < mdgs[2]): # [3,6) MDG
             position = 2
-        elif (value1 >= 6 and value1 < 12): # [6,12) MDG
+
+        elif (total >= mdgs[2] and total < mdgs[3]): # [6,12) MDG
             position = 3
-        elif (value1 >= 12 and value1 < 24): # [12, 24) MDG
+
+        elif (total >= mdgs[3] and total < mdgs[4]): # [12, 24) MDG
             position = 4
-        elif value1 >= 24: # [24, inf) MDG
+
+        elif total >= mdgs[4]: # [24, inf) MDG
             position = 5
+
     else: # cero meses de tus gastos
         position = 0
 
-    emerPerc = emePerces[position]
+    emerPerc  = emePerces[position]
+    nextLevel = mdgs[position]
     
     return emerPerc
-
