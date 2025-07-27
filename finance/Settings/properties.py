@@ -8,8 +8,8 @@ zero         = 0
 one          = 1
 totalBudget  = 3500
 ########## Calculo con fechas ###########
-paymentDay    = date(2025,7,11) # Fecha de pago [Tipo date]
-nextPayDay    = date(2025,7,28) # Proxima fecha de pago
+paymentDay    = date(2025,7,25) # Fecha de pago [Tipo date]
+nextPayDay    = date(2025,8,12) # Proxima fecha de pago
 today         = date.today()    # Fecha de hoy
 dateTimeMark  = datetime.now()  # Objeto tipo date, time
 sDateMarkFmt  = dateTimeMark.strftime("%d/%m/%Y") # Funcion para dar formato a objetos tipo date y date time. Genera string YY MM DD
