@@ -123,3 +123,44 @@ def splitter(total):
     nextLevel = int(mdgs[position])
     
     return emerPerc, nextLevel
+
+def investAdjust(currVariable:float, currFixed:float, toAdd:float):
+    """Funcion que determina cuando destinar a Renta Variable y Renta Fija"""
+    variablePer = toInvest()
+    fixedPer    = 100-variablePer
+
+    investTotal  = currVariable + currFixed
+    shldVariable = investTotal*(variablePer/100)
+    shldFixed    = investTotal*(fixedPer/100)
+        
+    variableDiff = shldVariable-currVariable
+    fixedDiff    = shldFixed-currFixed
+            
+    toAddVariable = toAdd*(variablePer/100)
+    toAddFixed    = toAdd*(fixedPer/100)
+
+    toInvestVar   = toAddVariable + variableDiff
+    toInvestFixed = toAddFixed + fixedDiff
+
+    if toInvestVar <= 0 and toInvestFixed > 0:
+            print(f"Atencion en Renta Fija")
+            if toAdd <= shldFixed:
+                toInvestFixed = toAdd
+                toInvestVar   = 0
+
+            elif toAdd > shldFixed:
+                toInvestFixed = shldFixed
+                toInvestVar   = toAdd - shldFixed
+
+    elif toInvestVar > 0 and toInvestFixed <= 0:
+        print("Atencion en Renta Variable")
+        if toAdd <= shldVariable:
+            toInvestVar   = toAdd
+            toInvestFixed = 0
+
+        elif toAdd > shldVariable:
+            toInvestVar   = shldVariable
+            toInvestFixed = toAdd - shldVariable
+
+    return toInvestVar, toInvestFixed
+    
