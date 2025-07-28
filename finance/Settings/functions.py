@@ -1,9 +1,11 @@
 import os
 import functools
+import calendar
+import csv
 from Settings.properties import *
 from typing import Union
-from datetime import datetime
-import calendar
+from datetime import datetime, date
+
 
 def getFilePointer(scriptName):
     logPath = "./logs/"
@@ -163,4 +165,40 @@ def investAdjust(currVariable:float, currFixed:float, toAdd:float):
             toInvestFixed = toAdd - shldVariable
 
     return toInvestVar, toInvestFixed
+
+def saveData(monthly,emergencies,mdgs,currVariable,curFixed,working,emerAmount,emerPer,investment,invPerc,varAmount,fixedAmount,comments):
+    filePath = "./dataBase/"
+    fileExt  = ".csv"
+    os.makedirs(filePath, exist_ok=True)
+    fileName = "Investments_" + str(today.year) + fileExt
+
+    filePointer = filePath + fileName
+
+    data = {
+        "Edad":getAge(myBirthDay),
+        "Regla":str(investRule),
+        "Gastos_Mensuales":monthly,
+        "Fondo_Emergencias_Actual":emergencies,
+        "Meses_Gastos":mdgs,
+        "Renta_Variable_Actual":currVariable,
+        "Renta_Fija_Actual":curFixed,
+        "Adicion_Total":working,
+        "Adicion_Emergencias":emerAmount,
+        "Porentaje_Emergencias":emerPer,
+        "Adicion_Inversiones":investment,
+        "Porcentaje_Inversiones":invPerc,
+        "Adicion_Renta_Variable":varAmount,
+        "Adicion_Renta_Fija":fixedAmount,
+        "Fecha":date.today().isoformat(),
+        "Comentarios":comments
+    }
+
+    newFile = not os.path.exists(filePointer)
+
+    with open(filePointer, "a", newline="") as file:
+        writer = csv.DictWriter(file,fieldnames=data.keys())
+        if newFile:
+            writer.writeheader()
+        writer.writerow(data)
+
     

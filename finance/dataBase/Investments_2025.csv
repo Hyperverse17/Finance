@@ -1,0 +1,5 @@
+Edad,Regla,Gastos_Mensuales,Fondo_Emergencias_Actual,Meses_Gastos,Renta_Variable_Actual,Renta_Fija_Actual,Adicion_Total,Adicion_Emergencias,Porentaje_Emergencias,Adicion_Inversiones,Porcentaje_Inversiones,Adicion_Renta_Variable,Adicion_Renta_Fija,Fecha,Comentarios
+34,110,34600,34600.0,0.61,6300.0,56565.0,642965.0,482223.75,75,160741.25,25,47777.4,112963.85,2025-07-28,Hello
+34,110,34600,42000.0,1.21,21000.0,6300.0,2100.0,1575.0,75,525.0,25,147.0,378.0,2025-07-28,Esta es una prueba para ver como se guarda un comentario
+34,110,34600,43000.0,1.24,21000.0,58000.0,9632.0,7224.0,75,2408.0,25,2408.0,0,2025-07-28,quincena 2 de julio
+34,110,34600,42000.0,1.21,21000.0,6300.0,2100.0,1575.0,75,525.0,25,147.0,378.0,2025-07-28,

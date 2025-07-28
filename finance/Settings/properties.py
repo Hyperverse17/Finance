@@ -1,4 +1,3 @@
-import os
 from datetime import date, datetime
 ############## De Flujo ##############
 goAhead = True
@@ -22,9 +21,10 @@ currDay       = elapsedDays + one
 dailyBudget   = round(totalBudget/daysDuration,2)
 amounts       = []
 ################ Formato ######################
-sStars      = "**************"
+sStars      = "*****************"
 sDottedLine = "---------------------------------"
 fmtCnt      = zero
+null        = ""
 ####### Propiedades Calculadora Interes compuesto #######
 T = 9   # Tasa anualizada
 incrementDay = 15 # cada cuantos dias hay incremento

@@ -2,7 +2,7 @@ try:
     import os
     import time
     from Settings.properties import monthly, myBirthDay, sStars, investRule
-    from Settings.functions import toInvest, splitter, WantToRepeat, getAge, log
+    from Settings.functions import toInvest, splitter, investAdjust, WantToRepeat, getAge, log, saveData
     scriptName = os.path.basename(__file__)
     
     goAhead = True
@@ -14,15 +14,20 @@ try:
         print()
         print(sStars + f" Emergencias e Inersiones - {investRule} " + sStars)
         print()
-        emerFunds = float(input("Fondo de Emergencias: "))
-        toAdd     = float(input("Cuanto deseas añadir: "))
-        mdg       = round(emerFunds/monthly,2)
+        emerFunds    = float(input("Fondo de Emergencias    : "))
+        currVariable = float(input("Total en Renta Variable : "))
+        currFixed    = float(input("Total en Renta Fija     : "))
+        toAdd        = float(input("Cuanto deseas añadir    : "))
+        mdg          = round(emerFunds/monthly,2)
+
         os.system("cls")
         print()
         print(sStars + " Resumen " + sStars)
         print(log(f"Gastos Mensuales     : ${monthly:,.2f}",scriptName))
         print(log(f"Fondo de Emergencias : ${emerFunds:,.2f}",scriptName) + f" ({mdg} MDG)")
         log(f"MDG                  : {mdg}",scriptName)
+        print(log(f"Renta Variable       : ${currVariable:,.2f}",scriptName))
+        print(log(f"Renta Fija           : ${currFixed:,.2f}",scriptName))
         print(log(f"Edad                 : {getAge(myBirthDay)}",scriptName) + " Años")
         time.sleep(1)
         print()
@@ -41,15 +46,13 @@ try:
         
         log(f"Se trabaja con       : ${toAdd:,.2f}",scriptName)
             
-        emergencias = toAdd*(emerPerc/100)
-        inversion   = toAdd*((1-(emerPerc/100)))
+        emergencias                = toAdd*(emerPerc/100) # Total para emergencias
+        inversion                  = toAdd*((1-(emerPerc/100))) # Total pra inversiones
+        toInvestVar, toInvestFixed = investAdjust(currVariable, currFixed, inversion) # Renta variable y renta fija
          
-        etfPerc   = toInvest()/100
-        cetesPerc = 1-(toInvest()/100)
-        
-        emerAmount = round(emergencias,2)
-        etfAmount = round(inversion*etfPerc,2)
-        cetesAmount = round(inversion*cetesPerc,2)
+        emerAmount  = round(emergencias,2)
+        etfAmount   = round(toInvestVar,2)
+        cetesAmount = round(toInvestFixed,2)
 
         print(f"Destina los ${toAdd:,.2f} de la siguiente manera: ")
         print()
@@ -66,6 +69,12 @@ try:
         print(log(f" - Renta Fija        : ${cetesAmount:,.2f}",scriptName))
         print(log("",scriptName))
         print(log(f"Siguiente objetivo   : ${nextLevel:,.2f}",scriptName))
+        print()
+
+        comments = input("Comentarios          : ")
+
+        saveData(monthly,emerFunds,mdg,currVariable,currFixed,toAdd,emerAmount,emerPerc,inversion,(100-emerPerc),etfAmount,cetesAmount,comments)
+
         goAhead = WantToRepeat(goAhead)
         log(f"Repeat: {goAhead}",scriptName)
 
@@ -79,6 +88,12 @@ except ValueError as e:
     os.system("cls")
     print()
     print("Tipo de dato no permitido!")
+    print(log(f"{e}",scriptName))
+
+except PermissionError as e:
+    os.system("cls")
+    print()
+    print("Cierra el archivo csv!")
     print(log(f"{e}",scriptName))
 
 finally:
