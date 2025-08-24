@@ -1,5 +1,4 @@
 Edad,Regla,Gastos_Mensuales,Fondo_Emergencias_Actual,Meses_Gastos,Renta_Variable_Actual,Renta_Fija_Actual,Adicion_Total,Adicion_Emergencias,Porentaje_Emergencias,Adicion_Inversiones,Porcentaje_Inversiones,Adicion_Renta_Variable,Adicion_Renta_Fija,Fecha,Comentarios
-34,110,34600,34600.0,0.61,6300.0,56565.0,642965.0,482223.75,75,160741.25,25,47777.4,112963.85,2025-07-28,Hello
-34,110,34600,42000.0,1.21,21000.0,6300.0,2100.0,1575.0,75,525.0,25,147.0,378.0,2025-07-28,Esta es una prueba para ver como se guarda un comentario
-34,110,34600,43000.0,1.24,21000.0,58000.0,9632.0,7224.0,75,2408.0,25,2408.0,0,2025-07-28,quincena 2 de julio
-34,110,34600,42000.0,1.21,21000.0,6300.0,2100.0,1575.0,75,525.0,25,147.0,378.0,2025-07-28,
+34,110,34600,43417.54,1.25,21117.41,6351.5,100.0,75.0,75,25.0,25,0,25.0,2025-07-28,Primera inversion real despues de implementar escritura de base de datos
+34,110,34600,40408.86,1.17,21107.18,6386.44,618.0,463.5,75,154.5,25,0,154.5,2025-08-04,10% de lo que tenia para un mes de auto
+34,110,34600,40574.67,1.17,21189.59,6552.57,2140.0,1605.0,75,535.0,25,301.05,233.95,2025-08-12,Primera quincena de agosto
