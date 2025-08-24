@@ -2,6 +2,8 @@ from datetime import date, datetime
 ############## De Flujo ##############
 goAhead = True
 addFlag = True
+mainDbName = "Personal_Finances.db"
+
 ############### Operativos ############
 zero         = 0
 one          = 1
