@@ -1,10 +1,12 @@
 try:
     import os
     import time
+    import sqlite3
     from Settings.properties import monthly, myBirthDay, sStars, investRule
-    from Settings.functions import toInvest, splitter, investAdjust, WantToRepeat, getAge, log, saveData
+    from Settings.functions import toInvest, splitter, investAdjust, WantToRepeat, getAge, log, saveDataCsv, saveDataBase
     scriptName = os.path.basename(__file__)
     
+    e = ".v"
     goAhead = True
     log(sStars*3,scriptName)
     
@@ -73,7 +75,7 @@ try:
 
         comments = input("Comentarios          : ")
 
-        saveData(monthly,emerFunds,mdg,currVariable,currFixed,toAdd,emerAmount,emerPerc,inversion,(100-emerPerc),etfAmount,cetesAmount,comments)
+        saveDataBase(monthly,emerFunds,mdg,currVariable,currFixed,toAdd,emerAmount,emerPerc,inversion,(100-emerPerc),etfAmount,cetesAmount,comments)
 
         goAhead = WantToRepeat(goAhead)
         log(f"Repeat: {goAhead}",scriptName)
@@ -94,6 +96,12 @@ except PermissionError as e:
     os.system("cls")
     print()
     print("Cierra el archivo csv!")
+    print(log(f"{e}",scriptName))
+
+except sqlite3.DatabaseError as e:
+    os.system("cls")
+    print()
+    print("Problema con la BD")
     print(log(f"{e}",scriptName))
 
 finally:

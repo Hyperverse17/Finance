@@ -2,10 +2,10 @@ import os
 import functools
 import calendar
 import csv
+import sqlite3
 from Settings.properties import *
 from typing import Union
 from datetime import datetime, date
-
 
 def getFilePointer(scriptName):
     logPath = "./logs/"
@@ -166,11 +166,12 @@ def investAdjust(currVariable:float, currFixed:float, toAdd:float):
 
     return toInvestVar, toInvestFixed
 
-def saveData(monthly,emergencies,mdgs,currVariable,curFixed,working,emerAmount,emerPer,investment,invPerc,varAmount,fixedAmount,comments):
+def saveDataCsv(monthly,emergencies,mdgs,currVariable,curFixed,working,emerAmount,emerPer,investment,invPerc,varAmount,fixedAmount,comments):
+    """Funcion para escribir informacion en un csv"""
     filePath = "./dataBase/"
     fileExt  = ".csv"
     os.makedirs(filePath, exist_ok=True)
-    fileName = "Investments_" + str(today.year) + fileExt
+    fileName = "Investments_2" + str(today.year) + fileExt
 
     filePointer = filePath + fileName
 
@@ -201,4 +202,54 @@ def saveData(monthly,emergencies,mdgs,currVariable,curFixed,working,emerAmount,e
             writer.writeheader()
         writer.writerow(data)
 
-    
+def saveDataBase(monthly,emergencies,mdgs,currVariable,curFixed,working,emerAmount,emerPer,investment,invPerc,varAmount,fixedAmount,comments):
+    """Guarda información en la Base de Datos"""
+    conn    = sqlite3.connect(mainDbName)
+    cursor  = conn.cursor()
+    values  = []
+
+    command = """INSERT INTO investments (
+        investor, 
+        age, 
+        rule, 
+        monthly_expenses, 
+        current_emergency, 
+        moe_equivalence, 
+        current_variable, 
+        current_fixed, 
+        total_add, 
+        emergency_add, 
+        investments_add, 
+        variable_add, 
+        fixed_add, 
+        emergency_percentage, 
+        investments_percentage, 
+        variable_percentage, 
+        fixed_perentage, 
+        comments, 
+        date) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"""
+
+    values.append(defaultId)
+    values.append(getAge(myBirthDay))
+    values.append(investRule)
+    values.append(monthly)
+    values.append(emergencies)
+    values.append(mdgs)
+    values.append(currVariable)
+    values.append(curFixed)
+    values.append(working)
+    values.append(emerAmount)
+    values.append(investment)
+    values.append(varAmount)
+    values.append(fixedAmount)
+    values.append(emerPer)
+    values.append(invPerc)
+    values.append(investRule-(getAge(myBirthDay))) # variable_percentage
+    values.append(100-(investRule-(getAge(myBirthDay)))) # fixed_perentage
+    values.append(comments) # comments
+    values.append(date.today().isoformat()) # date
+    values = tuple(values)
+    cursor.execute(command,values)
+    conn.commit()
+    conn.close
