@@ -66,6 +66,16 @@ def WantToRepeat(goAhead:bool) -> bool:
 
     return goAhead
 
+def wannaSave(goAhead:bool) -> bool:
+    """Solicita confirmacion"""
+    print()
+    if goAhead == False:
+        userAnswer = input("Deseas guardar en la base de datos? (s/n) 🤔 : ")
+        if userAnswer == 's' or userAnswer == 'S':
+            goAhead = True
+
+    return goAhead
+
 def addition() -> Union[int, float]:
     """Funcion auxiliar para realizar una suma de n valores"""
     addFlag = True

@@ -2,16 +2,16 @@ try:
     import os
     import time
     import sqlite3
-    from Settings.properties import monthly, myBirthDay, sStars, investRule
-    from Settings.functions import toInvest, splitter, investAdjust, WantToRepeat, getAge, log, saveDataCsv, saveDataBase
+    from Settings.properties import mainDbName, monthly, myBirthDay, sStars, investRule, saveData
+    from Settings.functions import toInvest, splitter, investAdjust, WantToRepeat, getAge, log, saveDataBase, wannaSave
     scriptName = os.path.basename(__file__)
     
-    e = ".v"
-    goAhead = True
+    goAhead  = True
+    
     log(sStars*3,scriptName)
     
     while goAhead:
-        
+        saveData = False    
         os.system("cls")
         print()
         print(sStars + f" Emergencias e Inersiones - {investRule} " + sStars)
@@ -75,7 +75,12 @@ try:
 
         comments = input("Comentarios          : ")
 
-        saveDataBase(monthly,emerFunds,mdg,currVariable,currFixed,toAdd,emerAmount,emerPerc,inversion,(100-emerPerc),etfAmount,cetesAmount,comments)
+        saveData = wannaSave(saveData)
+        
+        if saveData:
+            print()
+            saveDataBase(monthly,emerFunds,mdg,currVariable,currFixed,toAdd,emerAmount,emerPerc,inversion,(100-emerPerc),etfAmount,cetesAmount,comments)
+            print(f"Informacion guardada en: {mainDbName}")
 
         goAhead = WantToRepeat(goAhead)
         log(f"Repeat: {goAhead}",scriptName)

@@ -1,7 +1,8 @@
 from datetime import date, datetime
 ############## De Flujo ##############
-goAhead = True
-addFlag = True
+goAhead  = True
+addFlag  = True
+saveData = False
 mainDbName = "MyFinances.db"
 defaultId  = 1
 
