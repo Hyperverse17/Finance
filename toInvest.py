@@ -79,8 +79,8 @@ try:
         
         if saveData:
             print()
-            saveDataBase(monthly,emerFunds,mdg,currVariable,currFixed,toAdd,emerAmount,emerPerc,inversion,(100-emerPerc),etfAmount,cetesAmount,comments)
-            print(f"Informacion guardada en: {mainDbName}")
+            newRec = saveDataBase(monthly,emerFunds,mdg,currVariable,currFixed,toAdd,emerAmount,emerPerc,inversion,(100-emerPerc),etfAmount,cetesAmount,comments)
+            print(f"Informacion guardada en {mainDbName} con el ID: {newRec}")
 
         goAhead = WantToRepeat(goAhead)
         log(f"Repeat: {goAhead}",scriptName)

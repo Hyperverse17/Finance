@@ -212,8 +212,8 @@ def saveDataCsv(monthly,emergencies,mdgs,currVariable,curFixed,working,emerAmoun
             writer.writeheader()
         writer.writerow(data)
 
-def saveDataBase(monthly,emergencies,mdgs,currVariable,curFixed,working,emerAmount,emerPer,investment,invPerc,varAmount,fixedAmount,comments):
-    """Guarda información en la Base de Datos"""
+def saveDataBase(monthly,emergencies,mdgs,currVariable,curFixed,working,emerAmount,emerPer,investment,invPerc,varAmount,fixedAmount,comments) -> int:
+    """Guarda información en la Base de Datos y devuelve el id del registro"""
     conn    = sqlite3.connect(mainDbName)
     cursor  = conn.cursor()
     values  = []
@@ -260,6 +260,12 @@ def saveDataBase(monthly,emergencies,mdgs,currVariable,curFixed,working,emerAmou
     values.append(comments) # comments
     values.append(date.today().isoformat()) # date
     values = tuple(values)
+    
     cursor.execute(command,values)
+    
+    recId = cursor.lastrowid
+
     conn.commit()
     conn.close
+
+    return recId
