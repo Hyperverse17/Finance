@@ -55,6 +55,7 @@ try:
         emerAmount  = round(emergencias,2)
         etfAmount   = round(toInvestVar,2)
         cetesAmount = round(toInvestFixed,2)
+        inversion   = round(inversion,2)
 
         print(f"Destina los ${toAdd:,.2f} de la siguiente manera: ")
         print()
