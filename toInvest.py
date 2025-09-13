@@ -88,7 +88,7 @@ try:
         if saveData:
             print()
             newRec = saveDataBase(monthly,emerFunds,mdg,currVariable,currFixed,toAdd,emerAmount,emerPerc,inversion,(100-emerPerc),etfAmount,cetesAmount,comments)
-            updateInvestor(emerFunds,currVariable,currFixed)
+            updateInvestor((emerFunds + emerAmount), (currVariable + etfAmount), (currFixed + cetesAmount))
             print(f"Informacion guardada en {mainDbName} con el ID: {newRec}")
 
         goAhead = WantToRepeat(goAhead)
