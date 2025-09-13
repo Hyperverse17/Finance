@@ -25,7 +25,10 @@ def getFilePointer(scriptName):
         fileName = "balance_log_" + monthName + "_" + str(paymentDay.year) + "_" + payment + ext
         
     elif scriptName == "toInvest.py":
-        fileName = "invest_" + str(investRule) + "_log_" + str(today.year) + "_" + ext
+        fileName = "invest_log_" + str(today.year) + "_" + ext
+
+    elif scriptName == "function":
+        fileName = "function_log_" + str(today.year) + "_" + ext
     
     filePointer = logPath + fileName
     
@@ -46,12 +49,33 @@ def writeLog(func):
         return result
     return wrapper
 
+def functionLog(func):
+    @functools.wraps(func) 
+    def wrapper(*args, **kwargs):
+        workingDate      = today.strftime("%y-%m-%d ")
+        dateTimeMark     = datetime.now().strftime("%H:%M:%S") #Objeto tipo date time (genera una marca de tiempo)
+        sDateTimeMarkFmt = workingDate + dateTimeMark # formato a la marca de tiempo, genera string YYMMDDhhmmss
+        result           = func(*args, **kwargs)
+
+        funcName  = func.__name__
+        argsStr   = ", ".join(repr(arg) for arg in args)
+        kwargsStr = ", ".join(f"{k}={v!r}" for k, v in kwargs.items())
+        allArgs   = ", ".join(filter(None, [argsStr, kwargsStr]))
+        message   = f"[LOG {sDateTimeMarkFmt}] Function: {funcName}({allArgs}) -> {result}"
+
+        filePointer = getFilePointer("function") 
+        with open(filePointer, "a") as file:
+            file.write(message + "\n")
+        return result
+    return wrapper
+
 @writeLog
 def log(inMessage:str, scriptName:str)-> str:
     """Funcion auxiliar que guarda en un log el string que se le pasa"""
     outMessage = inMessage
     return outMessage
 
+@functionLog
 def WantToRepeat(goAhead:bool) -> bool:
     """Funcion auxiliar para repetir un proceso"""
     print()
@@ -66,6 +90,7 @@ def WantToRepeat(goAhead:bool) -> bool:
 
     return goAhead
 
+@functionLog
 def wannaSave(goAhead:bool) -> bool:
     """Solicita confirmacion"""
     print()
@@ -90,23 +115,73 @@ def addition() -> Union[int, float]:
         totalSum += float(currAmt)
     return totalSum
 
+@functionLog
+def recordExistance(table:str, recId:int) -> bool:
+    """Evalua la existencia de determinado registro en determinada tabla"""
+    conn   = sqlite3.connect(mainDbName)
+    cursor = conn.cursor()
+    command = f"SELECT 1 FROM {table} WHERE id = {recId};"
+    cursor.execute(command)
+    value = cursor.fetchone() # Puede regresar una tupla o nada
+
+    if value:
+        value = True
+    else:
+        value = False
+
+    return value
+
+@functionLog
+def getInvestorData(investorId:int, value:int) -> Union[int,float,str]:
+    """Función que devuelve datos del inversor"""
+    conn   = sqlite3.connect(mainDbName)
+    cursor = conn.cursor()
+    field  = ""
+    
+    if value == 1: # Birthday 
+        field = "birthday"
+
+    elif value == 2: # Investment Rule
+        field = "investment_rule"
+        
+    elif value == 3: # Monthly Expenses
+        field = "monthly_expenses"
+
+    elif value == 4: # Name
+        field = "name"
+
+    else:
+        pass
+
+    command = F"SELECT {field} FROM investors WHERE id = {investorId};"
+    cursor.execute(command)
+    value = cursor.fetchone()[0] # Se coloca para especificar la posición porque originalmente regresa una tupla
+    conn.close
+
+    return value
+
+@functionLog
 def getAge(birthDay:str) -> int:
     """Recibe un string con una fecha de nacimiento YYYY-MM-DD y devuelve un entero con la edad en años"""
-    today     = datetime.today()
+    today     = datetime.today() 
     birthDate = datetime.strptime(birthDay, "%Y-%m-%d")
     age = int(today.year - birthDate.year - ((today.month, today.day) < (birthDate.month, birthDate.day))) # Se hace un comparativo entre mes y día (del día) y de mes y dia del cumpleaños, si el resultado es true, al evaluarse se considera como 1, si es false, 0
     return age
 
+@functionLog
 def toInvest():
-    myAge = getAge(myBirthDay)
-    toInvestPerc = investRule-myAge
+    myAge = getAge(getInvestorData(defaultId,1)) # Segundo parametro = 1 para extraer la fecha de cumpleaños
+    toInvestPerc = (getInvestorData(defaultId,2))-myAge # Segundo parametro = 2 para extraer la regla de inversión
     return toInvestPerc
 
+@functionLog
 def getMdgs():
-    months = (  1, 3, 6,12,24,symbolicLimit)
+    monthly = getInvestorData(defaultId,3)
+    months = (1, 3, 6,12,24,symbolicLimit)
     mdgs   = [x * monthly for x in months]
     return mdgs
 
+@functionLog
 def splitter(total):
     """Regresa el porcentaje que debe ser destinado al fondo de emergencias"""
     emePerces = (100,75,50,25,15,10)
@@ -136,6 +211,7 @@ def splitter(total):
     
     return emerPerc, nextLevel
 
+@functionLog
 def investAdjust(currVariable:float, currFixed:float, toAdd:float):
     """Funcion que determina cuando destinar a Renta Variable y Renta Fija"""
     variablePer = toInvest()
@@ -186,8 +262,8 @@ def saveDataCsv(monthly,emergencies,mdgs,currVariable,curFixed,working,emerAmoun
     filePointer = filePath + fileName
 
     data = {
-        "Edad":getAge(myBirthDay),
-        "Regla":str(investRule),
+        "Edad":getAge(getInvestorData(defaultId,1)),
+        "Regla":str(getInvestorData(defaultId,2)),
         "Gastos_Mensuales":monthly,
         "Fondo_Emergencias_Actual":emergencies,
         "Meses_Gastos":mdgs,
@@ -212,6 +288,7 @@ def saveDataCsv(monthly,emergencies,mdgs,currVariable,curFixed,working,emerAmoun
             writer.writeheader()
         writer.writerow(data)
 
+@functionLog
 def saveDataBase(monthly,emergencies,mdgs,currVariable,curFixed,working,emerAmount,emerPer,investment,invPerc,varAmount,fixedAmount,comments) -> int:
     """Guarda información en la Base de Datos y devuelve el id del registro"""
     conn    = sqlite3.connect(mainDbName)
@@ -241,8 +318,8 @@ def saveDataBase(monthly,emergencies,mdgs,currVariable,curFixed,working,emerAmou
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"""
 
     values.append(defaultId)
-    values.append(getAge(myBirthDay))
-    values.append(investRule)
+    values.append(getAge(getInvestorData(defaultId,1)))
+    values.append(getInvestorData(defaultId,2))
     values.append(monthly)
     values.append(emergencies)
     values.append(mdgs)
@@ -255,8 +332,8 @@ def saveDataBase(monthly,emergencies,mdgs,currVariable,curFixed,working,emerAmou
     values.append(fixedAmount)
     values.append(emerPer)
     values.append(invPerc)
-    values.append(investRule-(getAge(myBirthDay))) # variable_percentage
-    values.append(100-(investRule-(getAge(myBirthDay)))) # fixed_perentage
+    values.append(getInvestorData(defaultId,2)-(getAge(getInvestorData(defaultId,1)))) # variable_percentage
+    values.append(100-(getInvestorData(defaultId,2)-(getAge(getInvestorData(defaultId,1))))) # fixed_perentage
     values.append(comments) # comments
     values.append(date.today().isoformat()) # date
     values = tuple(values)
@@ -269,3 +346,14 @@ def saveDataBase(monthly,emergencies,mdgs,currVariable,curFixed,working,emerAmou
     conn.close
 
     return recId
+
+@functionLog
+def updateInvestor(emerFund:float, variableAmt:float, fixedAmt:float):
+    """Actualiza registros de la tabla investors"""
+    totalValue = round((variableAmt + fixedAmt),2)
+    conn = sqlite3.connect(mainDbName)
+    cursor = conn.cursor()
+    command = f"UPDATE investors SET emergency_fund = {emerFund}, variable_amt = {variableAmt}, fixed_amt = {fixedAmt}, total_portfolio = {totalValue}, last_update = datetime('now','localtime') WHERE id = {defaultId};"
+    cursor.execute(command)
+    conn.commit()
+    conn.close

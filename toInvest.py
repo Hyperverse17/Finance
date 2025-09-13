@@ -2,19 +2,27 @@ try:
     import os
     import time
     import sqlite3
-    from Settings.properties import mainDbName, monthly, myBirthDay, sStars, investRule, saveData
-    from Settings.functions import toInvest, splitter, investAdjust, WantToRepeat, getAge, log, saveDataBase, wannaSave
+    from Settings.properties import mainDbName, goAhead, sStars, saveData, table1, defaultId, noSuchRecord
+    from Settings.functions import toInvest, splitter, investAdjust, WantToRepeat, getAge, getInvestorData, recordExistance, log, saveDataBase, wannaSave, updateInvestor
     scriptName = os.path.basename(__file__)
     
-    goAhead  = True
-    
     log(sStars*3,scriptName)
+
+    if recordExistance(table1, defaultId) == True:
+        myBirthDay = getInvestorData(defaultId,1)
+        investRule = getInvestorData(defaultId,2)
+        monthly    = getInvestorData(defaultId,3)
+        name       = getInvestorData(defaultId,4)
+        log(f"Inicia sesion        : [{defaultId}] {name}",scriptName)
+    else:
+        raise noSuchRecord()
     
     while goAhead:
         saveData = False    
         os.system("cls")
         print()
         print(sStars + f" Emergencias e Inersiones - {investRule} " + sStars)
+        print(f"                         Hola, {name}!")
         print()
         emerFunds    = float(input("Fondo de Emergencias    : "))
         currVariable = float(input("Total en Renta Variable : "))
@@ -55,7 +63,6 @@ try:
         emerAmount  = round(emergencias,2)
         etfAmount   = round(toInvestVar,2)
         cetesAmount = round(toInvestFixed,2)
-        inversion   = round(inversion,2)
 
         print(f"Destina los ${toAdd:,.2f} de la siguiente manera: ")
         print()
@@ -81,6 +88,7 @@ try:
         if saveData:
             print()
             newRec = saveDataBase(monthly,emerFunds,mdg,currVariable,currFixed,toAdd,emerAmount,emerPerc,inversion,(100-emerPerc),etfAmount,cetesAmount,comments)
+            updateInvestor(emerFunds,currVariable,currFixed)
             print(f"Informacion guardada en {mainDbName} con el ID: {newRec}")
 
         goAhead = WantToRepeat(goAhead)
@@ -91,6 +99,11 @@ except ImportError as e:
     print()
     print("Algo anda mal con la importación...")
     print(log(f"{e}",scriptName))
+
+except noSuchRecord as e:
+    os.system("cls")
+    print()
+    print(log(f"{e} {defaultId} en {table1}",scriptName))
 
 except ValueError as e:
     os.system("cls")

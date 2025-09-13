@@ -4,7 +4,9 @@ goAhead  = True
 addFlag  = True
 saveData = False
 mainDbName = "MyFinances.db"
-defaultId  = 1
+table1     = "investors"
+print()
+defaultId  = int(input("Id de usuario: "))
 
 ############### Operativos ############
 zero         = 0
@@ -56,11 +58,11 @@ t             = T/100
 f             = t/360
 dayCnt        = 0
 counter2      = 0
-monthly       = 34600 # Gastos Mensuales a julio 2025
+#monthly       = 34600 # Gastos Mensuales a julio 2025
 
 ############ Invest Rule #########
-investRule    = 110 # Aggresive!
-myBirthDay    = "1991-07-17"
+#investRule    = 110 # Aggresive!
+#myBirthDay    = "1991-07-17"
 symbolicLimit = 10000 # mdgs simbólico límite
 
 ########### Errors ##############
@@ -74,6 +76,12 @@ class greaterThanZeroError(Exception):
         self.message = "El monto total debe ser mayor que cero"
         super().__init__(self.message)
 
+class noSuchRecord(Exception):
+    def __init__(self) -> None:
+        self.message = "No existe el id"
+        super().__init__(self.message)
+
 dateError = updateDateError()
 zeroValueError = greaterThanZeroError()
+
     

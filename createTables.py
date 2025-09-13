@@ -7,7 +7,7 @@ cursor = conn.cursor()
 
 # Crear tabla si no existe
 cursor.execute("""
-CREATE TABLE IF NOT EXISTS investors (
+CREATE TABLE IF NOT EXISTS investors(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT,
     last_name TEXT,
@@ -15,8 +15,8 @@ CREATE TABLE IF NOT EXISTS investors (
     investment_rule INTEGER,
     monthly_expenses REAL,
     emergency_fund REAL,
-    variable_income REAL,
-    fixed_income REAL,
+    variable_amt REAL,
+    fixed_amt REAL,
     total_portfolio REAL,
     last_update TIMESTAMP DEFAULT (datetime('now','localtime'))
 )
