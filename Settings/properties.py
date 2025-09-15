@@ -4,9 +4,6 @@ import git
 repo = git.Repo(search_parent_directories=True)
 branch = repo.active_branch
 
-print(branch.name)
-print(type(branch.name))
-
 ############## De Flujo ##############
 goAhead  = True
 addFlag  = True
