@@ -5,6 +5,7 @@ from Settings.properties import mainDbName
 conn = sqlite3.connect(mainDbName)
 cursor = conn.cursor()
 
+
 # Crear tabla si no existe
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS investors(
@@ -46,6 +47,18 @@ CREATE TABLE IF NOT EXISTS investments (
     date DATE DEFAULT (date('now','localtime')),
     last_update TIMESTAMP DEFAULT (datetime('now','localtime')),
     FOREIGN KEY (investor) REFERENCES users(id)
+)
+""")
+
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS parameters(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id integer,
+    payment_day DATE,
+    next_payment_day DATE,
+    free_spending REAL,
+    last_update TIMESTAMP DEFAULT (datetime('now','localtime')),
+    FOREIGN KEY (user_id) REFERENCES investors(id)
 )
 """)
 
