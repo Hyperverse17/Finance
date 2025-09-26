@@ -160,6 +160,31 @@ def getInvestorData(investorId:int, value:int) -> Union[int,float,str]:
 
     return value
 
+def getParameters(userId:int, value:int) -> Union[int,float,str]:
+    """Función que devuelve datos de la tabla de parámetros"""
+    conn   = sqlite3.connect(mainDbName)
+    cursor = conn.cursor()
+    field  = ""
+    
+    if value == 1: # Fecha de pago 
+        field = "payment_day"
+
+    elif value == 2: # Fecha de siguiente pago
+        field = "next_payment_day"
+        
+    elif value == 3: # Gastos del periodo
+        field = "free_spending"
+
+    else:
+        pass
+
+    command = F"SELECT {field} FROM parameters WHERE user_id = {userId};"
+    cursor.execute(command)
+    value = cursor.fetchone()[0] # Se coloca para especificar la posición porque originalmente regresa una tupla
+    conn.close
+
+    return value
+
 @functionLog
 def getAge(birthDay:str) -> int:
     """Recibe un string con una fecha de nacimiento YYYY-MM-DD y devuelve un entero con la edad en años"""
