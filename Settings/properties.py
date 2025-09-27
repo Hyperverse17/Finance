@@ -21,20 +21,10 @@ defaultId  = int(input("Id de usuario: "))
 ############### Operativos ############
 zero         = 0
 one          = 1
-totalBudget  = 3500
 ########## Calculo con fechas ###########
-paymentDay    = date(2025,9,26) # Fecha de pago [Tipo date]
-nextPayDay    = date(2025,10,10) # Proxima fecha de pago
 today         = date.today()    # Fecha de hoy
 dateTimeMark  = datetime.now()  # Objeto tipo date, time
 sDateMarkFmt  = dateTimeMark.strftime("%d/%m/%Y") # Funcion para dar formato a objetos tipo date y date time. Genera string YY MM DD
-deltaDays1    = today-paymentDay # Diferencia entre fechas [Tipo Date]
-deltaDays2    = nextPayDay-paymentDay
-elapsedDays   = deltaDays1.days # el atributo .days devuelve un entero operable
-daysDuration  = deltaDays2.days
-remainingDays = daysDuration-elapsedDays
-currDay       = elapsedDays + one
-dailyBudget   = round(totalBudget/daysDuration,2)
 amounts       = []
 ################ Formato ######################
 sStars      = "*****************"
@@ -42,7 +32,7 @@ sDottedLine = "---------------------------------"
 fmtCnt      = zero
 null        = ""
 ####### Propiedades Calculadora Interes compuesto #######
-T = 9   # Tasa anualizada
+T = 7.75   # Tasa anualizada
 incrementDay = 15 # cada cuantos dias hay incremento
 t = T/100
 f = t/360

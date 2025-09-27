@@ -7,11 +7,39 @@ from Settings.properties import *
 from typing import Union
 from datetime import datetime, date
 
+def getParameters(userId:int, value:int) -> Union[int,float,str]:
+    """Función que devuelve datos de la tabla de parámetros"""
+    conn   = sqlite3.connect(mainDbName)
+    cursor = conn.cursor()
+    field  = ""
+    
+    if value == 1: # Fecha de pago 
+        field = "payment_day"
+
+    elif value == 2: # Fecha de siguiente pago
+        field = "next_payment_day"
+        
+    elif value == 3: # Gastos del periodo
+        field = "free_spending"
+
+    else:
+        pass
+
+    command = F"SELECT {field} FROM parameters WHERE user_id = {userId};"
+    cursor.execute(command)
+    value = cursor.fetchone()[0] # Se coloca para especificar la posición porque originalmente regresa una tupla
+    conn.close
+
+    return value
+
 def getFilePointer(scriptName):
     logPath = "./logs/"
     ext     = ".txt"
     os.makedirs(logPath, exist_ok=True)
-    
+
+    paymentDay  = datetime.strptime(getParameters(defaultId,1), "%Y-%m-%d").date()
+    nextPayDay  = datetime.strptime(getParameters(defaultId,2), "%Y-%m-%d").date()
+
     monthA    = paymentDay.month
     monthB    = nextPayDay.month
     monthName = calendar.month_name[monthA][:3]
@@ -154,31 +182,6 @@ def getInvestorData(investorId:int, value:int) -> Union[int,float,str]:
         pass
 
     command = F"SELECT {field} FROM investors WHERE id = {investorId};"
-    cursor.execute(command)
-    value = cursor.fetchone()[0] # Se coloca para especificar la posición porque originalmente regresa una tupla
-    conn.close
-
-    return value
-
-def getParameters(userId:int, value:int) -> Union[int,float,str]:
-    """Función que devuelve datos de la tabla de parámetros"""
-    conn   = sqlite3.connect(mainDbName)
-    cursor = conn.cursor()
-    field  = ""
-    
-    if value == 1: # Fecha de pago 
-        field = "payment_day"
-
-    elif value == 2: # Fecha de siguiente pago
-        field = "next_payment_day"
-        
-    elif value == 3: # Gastos del periodo
-        field = "free_spending"
-
-    else:
-        pass
-
-    command = F"SELECT {field} FROM parameters WHERE user_id = {userId};"
     cursor.execute(command)
     value = cursor.fetchone()[0] # Se coloca para especificar la posición porque originalmente regresa una tupla
     conn.close

@@ -3,11 +3,32 @@ try:
     import os
     from Settings.properties import * #<carpetaorigen>.<nombreArchivoPy>
     from Settings.functions import *
+
     scriptName = os.path.basename(__file__)
+
+    if recordExistance(table1, defaultId) == True:
+        name = getInvestorData(defaultId,4)
+        log(f"Inicia sesion        : [{defaultId}] {name}",scriptName)
+        paymentDay  = datetime.strptime(getParameters(defaultId,1), "%Y-%m-%d").date()
+        nextPayDay  = datetime.strptime(getParameters(defaultId,2), "%Y-%m-%d").date()
+        totalBudget = float(getParameters(defaultId,3))
+    else:
+        raise noSuchRecord()
+
+    deltaDays1 = today-paymentDay # Diferencia entre fechas [Tipo Date]
+    deltaDays2 = nextPayDay-paymentDay
+
+    elapsedDays   = deltaDays1.days # el atributo .days devuelve un entero operable
+    daysDuration  = deltaDays2.days
+
+    remainingDays = daysDuration-elapsedDays
+    currDay       = elapsedDays + one
+
+    dailyBudget = round(totalBudget/daysDuration,2)
 
     while goAhead:
         print()
-        print(sStars + "Calculos del dia " + str(currDay) +" ("+ sDateMarkFmt + ") " + sStars)
+        print(sStars + " Calculos del dia " + str(currDay) +" ("+ sDateMarkFmt + ") " + sStars)
         print()
         if remainingDays >= one:
             currentAmount = addition()
@@ -47,6 +68,11 @@ try:
             raise dateError
         
         goAhead = WantToRepeat(goAhead)
+
+except noSuchRecord as e:
+    os.system("cls")
+    print()
+    print(log(f"{e} {defaultId} en {table1}",scriptName))
 
 except(greaterThanZeroError):
     print(log(zeroValueError.message,scriptName))
