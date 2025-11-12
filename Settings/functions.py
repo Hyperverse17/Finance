@@ -123,7 +123,7 @@ def wannaSave(goAhead:bool) -> bool:
     """Solicita confirmacion"""
     print()
     if goAhead == False:
-        userAnswer = input("Deseas guardar en la base de datos? (s/n) 🤔 : ")
+        userAnswer = input("Deseas guardar esta info en la base de datos? (s/n): ")
         if userAnswer == 's' or userAnswer == 'S':
             goAhead = True
 
