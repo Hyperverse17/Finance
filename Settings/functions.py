@@ -205,12 +205,12 @@ def toInvest():
 @functionLog
 def getMdgs():
     monthly = getInvestorData(defaultId,3)
-    months = (1, 3, 6,12,24,symbolicLimit)
+    months = (1, 3, 6, 12, 24, symbolicLimit)
     mdgs   = [x * monthly for x in months]
     return mdgs
 
 @functionLog
-def splitter(total):
+def splitter(total,mode):
     """Regresa el porcentaje que debe ser destinado al fondo de emergencias"""
     emePerces = (100,75,50,25,15,10)
     mdgs      = getMdgs()
@@ -231,12 +231,16 @@ def splitter(total):
         elif total >= mdgs[4]: # [24, inf) MDG
             position = 5
 
-    else: # cero meses de tus gastos
-        position = 0
+        else: # cero meses de tus gastos
+            position = 0
+            
+        if mode == True:
+            emerPerc  = emePerces[position]
+        else:
+            emerPerc = 0
+            
+        nextLevel = int(mdgs[position])
 
-    emerPerc  = emePerces[position]
-    nextLevel = int(mdgs[position])
-    
     return emerPerc, nextLevel
 
 @functionLog
