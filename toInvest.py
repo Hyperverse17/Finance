@@ -7,7 +7,6 @@ try:
     scriptName = os.path.basename(__file__)
     
     log(sStars*3,scriptName)
-
     if recordExistance(table1, defaultId) == True:
         myBirthDay = getInvestorData(defaultId,1)
         investRule = getInvestorData(defaultId,2)
@@ -16,7 +15,7 @@ try:
         log(f"Inicia sesion        : [{defaultId}] {name}",scriptName)
     else:
         raise noSuchRecord()
-    
+
     while goAhead:
         saveData = False    
         os.system("cls")
@@ -135,3 +134,4 @@ finally:
     print(log("Fin del programa",scriptName))
     print()
     time.sleep(2)
+    
