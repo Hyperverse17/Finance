@@ -27,7 +27,15 @@ def getParameters(userId:int, value:int) -> Union[int,float,str]:
 
     command = F"SELECT {field} FROM parameters WHERE user_id = {userId} ORDER BY id DESC;"
     cursor.execute(command)
-    value = cursor.fetchone()[0] # Se coloca para especificar la posición porque originalmente regresa una tupla
+    value = cursor.fetchone()
+    
+    if value:
+        value = cursor.fetchone()[0] # Se coloca para especificar la posición porque originalmente regresa una tupla
+    else:
+        command = F"SELECT {field} FROM parameters ORDER BY id DESC;"
+        cursor.execute(command)
+        value = cursor.fetchone()[0]
+
     conn.close
 
     return value
