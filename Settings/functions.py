@@ -137,6 +137,7 @@ def wannaSave(goAhead:bool) -> bool:
 
     return goAhead
 
+@functionLog
 def addition() -> Union[int, float]:
     """Funcion auxiliar para realizar una suma de n valores"""
     addFlag = True
