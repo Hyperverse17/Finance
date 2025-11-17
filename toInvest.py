@@ -31,8 +31,10 @@ try:
         
         if mode == 's' or mode == 'S':
             mode = False
+            message1 = " (Sólo inv)."
         else:
             mode = True
+            message1 = ""
 
         mdg          = round(emerFunds/monthly,2)
 
@@ -93,7 +95,7 @@ try:
         
         if saveData:
             print()
-            newRec = saveDataBase(monthly,emerFunds,mdg,currVariable,currFixed,toAdd,emerAmount,emerPerc,inversion,(100-emerPerc),etfAmount,cetesAmount,comments)
+            newRec = saveDataBase(monthly,emerFunds,mdg,currVariable,currFixed,toAdd,emerAmount,emerPerc,inversion,(100-emerPerc),etfAmount,cetesAmount,comments+message1)
             updateInvestor((emerFunds + emerAmount), (currVariable + etfAmount), (currFixed + cetesAmount))
             print(f"Informacion guardada en {mainDbName} con el ID: {newRec}")
 
