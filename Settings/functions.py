@@ -137,6 +137,7 @@ def wannaSave(goAhead:bool) -> bool:
 
     return goAhead
 
+@functionLog
 def addition() -> Union[int, float]:
     """Funcion auxiliar para realizar una suma de n valores"""
     addFlag = True
@@ -242,10 +243,11 @@ def splitter(total,mode):
         else: # cero meses de tus gastos
             position = 0
             
-        if mode == True:
-            emerPerc  = emePerces[position]
+        if mode == True: # Just Investments
+            emerPerc = 0 
         else:
-            emerPerc = 0
+            emerPerc  = emePerces[position]
+            
             
         nextLevel = int(mdgs[position])
 

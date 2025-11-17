@@ -27,12 +27,14 @@ try:
         currVariable = float(input("Total en Renta Variable : "))
         currFixed    = float(input("Total en Renta Fija     : "))
         toAdd        = float(input("Cuanto deseas añadir    : "))
-        mode         = input("Sólo Inversión (s/n)?   : ")
+        justInvest   = input("Sólo Inversión (s/n)?   : ")
         
-        if mode == 's' or mode == 'S':
-            mode = False
+        if justInvest == 's' or justInvest == 'S':
+            justInvest = True
+            message1 = " (Sólo inv)."
         else:
-            mode = True
+            justInvest = False
+            message1 = ""
 
         mdg          = round(emerFunds/monthly,2)
 
@@ -49,7 +51,7 @@ try:
         print()
         
 #       Cálculos
-        emerPerc, nextLevel = splitter(emerFunds, mode)
+        emerPerc, nextLevel = splitter(emerFunds,justInvest)
         toJump = nextLevel-emerFunds
            
         if toAdd > toJump:
@@ -71,7 +73,6 @@ try:
         cetesAmount = round(toInvestFixed,2)
 
         print(f"Destina los ${toAdd:,.2f} de la siguiente manera: ")
-        print()
         print(f"{emerPerc}% a Emergencias y {(100-emerPerc)}% a Inversiones")
         log(f"Emergencias          : {round(emerPerc,2)}%",scriptName)
         log(f"Inversiones          : {round(100-(emerPerc),2)}%",scriptName)
@@ -92,8 +93,7 @@ try:
         saveData = wannaSave(saveData)
         
         if saveData:
-            print()
-            newRec = saveDataBase(monthly,emerFunds,mdg,currVariable,currFixed,toAdd,emerAmount,emerPerc,inversion,(100-emerPerc),etfAmount,cetesAmount,comments)
+            newRec = saveDataBase(monthly,emerFunds,mdg,currVariable,currFixed,toAdd,emerAmount,emerPerc,inversion,(100-emerPerc),etfAmount,cetesAmount,comments+message1)
             updateInvestor((emerFunds + emerAmount), (currVariable + etfAmount), (currFixed + cetesAmount))
             print(f"Informacion guardada en {mainDbName} con el ID: {newRec}")
 
