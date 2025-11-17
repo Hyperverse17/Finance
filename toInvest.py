@@ -27,13 +27,13 @@ try:
         currVariable = float(input("Total en Renta Variable : "))
         currFixed    = float(input("Total en Renta Fija     : "))
         toAdd        = float(input("Cuanto deseas añadir    : "))
-        mode         = input("Sólo Inversión (s/n)?   : ")
+        justInvest   = input("Sólo Inversión (s/n)?   : ")
         
-        if mode == 's' or mode == 'S':
-            mode = False
+        if justInvest == 's' or justInvest == 'S':
+            justInvest = True
             message1 = " (Sólo inv)."
         else:
-            mode = True
+            justInvest = False
             message1 = ""
 
         mdg          = round(emerFunds/monthly,2)
@@ -51,7 +51,7 @@ try:
         print()
         
 #       Cálculos
-        emerPerc, nextLevel = splitter(emerFunds, mode)
+        emerPerc, nextLevel = splitter(emerFunds,justInvest)
         toJump = nextLevel-emerFunds
            
         if toAdd > toJump:
