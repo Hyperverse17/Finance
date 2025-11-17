@@ -73,7 +73,6 @@ try:
         cetesAmount = round(toInvestFixed,2)
 
         print(f"Destina los ${toAdd:,.2f} de la siguiente manera: ")
-        print()
         print(f"{emerPerc}% a Emergencias y {(100-emerPerc)}% a Inversiones")
         log(f"Emergencias          : {round(emerPerc,2)}%",scriptName)
         log(f"Inversiones          : {round(100-(emerPerc),2)}%",scriptName)
@@ -94,7 +93,6 @@ try:
         saveData = wannaSave(saveData)
         
         if saveData:
-            print()
             newRec = saveDataBase(monthly,emerFunds,mdg,currVariable,currFixed,toAdd,emerAmount,emerPerc,inversion,(100-emerPerc),etfAmount,cetesAmount,comments+message1)
             updateInvestor((emerFunds + emerAmount), (currVariable + etfAmount), (currFixed + cetesAmount))
             print(f"Informacion guardada en {mainDbName} con el ID: {newRec}")
