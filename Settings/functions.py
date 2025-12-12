@@ -25,14 +25,14 @@ def getParameters(userId:int, value:int) -> Union[int,float,str]:
     else:
         pass
 
-    command = F"SELECT {field} FROM parameters WHERE user_id = {userId} ORDER BY id DESC;"
-    cursor.execute(command)
-    value = cursor.fetchone()
-    
-    if value:
-        value = cursor.fetchone()[0] # Se coloca para especificar la posición porque originalmente regresa una tupla
+    command = f"SELECT {field} FROM parameters WHERE user_id = ? ORDER BY id DESC LIMIT 1;"
+    cursor.execute(command, (userId,))
+    row = cursor.fetchone()
+
+    if row:
+        value = row[0]
     else:
-        command = F"SELECT {field} FROM parameters ORDER BY id DESC;"
+        command = f"SELECT {field} FROM parameters ORDER BY id DESC LIMIT 1;"
         cursor.execute(command)
         value = cursor.fetchone()[0]
 
