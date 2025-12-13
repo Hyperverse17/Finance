@@ -15,7 +15,7 @@ saveData = False
 if branch.name == "main":
     mainDbName = "MyFinances.db"
 else:
-    mainDbName = "Dummy.db"
+    mainDbName = "Tests.db"
     print(f"En branch {branch.name}, se usará la base: {mainDbName}")
     answer = input("Deseas continuar? (y/n): ").upper()
     if answer not in ('Y','YES'):
