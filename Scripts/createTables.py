@@ -1,10 +1,7 @@
-import sqlite3
-from Settings.properties import mainDbName
-
+from finance.core.db import get_connection
 # Conexión a la base de datos (se crea si no existe)
-conn = sqlite3.connect(mainDbName)
+conn   = get_connection()
 cursor = conn.cursor()
-
 
 # Crear tabla si no existe
 cursor.execute("""
@@ -65,4 +62,3 @@ CREATE TABLE IF NOT EXISTS parameters(
 # Guardar cambios y cerrar
 conn.commit()
 conn.close()
-
