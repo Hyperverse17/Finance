@@ -1,9 +1,9 @@
 try:
     import time
     import os
-    from Settings.properties import * #<carpetaorigen>.<nombreArchivoPy>
-    from Settings.functions import *
-
+    from finance.core.properties import * #<carpetaorigen>.<nombreArchivoPy>
+    from finance.core.functions import *
+    
     scriptName = os.path.basename(__file__)
 
     if recordExistance(table1, defaultId) == True:

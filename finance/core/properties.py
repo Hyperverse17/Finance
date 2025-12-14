@@ -12,16 +12,6 @@ goAhead  = True
 addFlag  = True
 saveData = False
 
-if branch.name == "main":
-    mainDbName = "MyFinances.db"
-else:
-    mainDbName = "Tests.db"
-    print(f"En branch {branch.name}, se usará la base: {mainDbName}")
-    answer = input("Deseas continuar? (y/n): ").upper()
-    if answer not in ('Y','YES'):
-        print("Ejecuión detenida por el usuario...\n")
-        time.sleep(2)
-        sys.exit()
 
 os.system("cls")
 table1     = "investors"
@@ -92,5 +82,3 @@ class noSuchRecord(Exception):
 
 dateError = updateDateError()
 zeroValueError = greaterThanZeroError()
-
-    

@@ -2,8 +2,9 @@ try:
     import os
     import time
     import sqlite3
-    from Settings.properties import mainDbName, goAhead, sStars, saveData, table1, defaultId, noSuchRecord
-    from Settings.functions import toInvest, splitter, investAdjust, WantToRepeat, getAge, getInvestorData, recordExistance, log, saveDataBase, wannaSave, updateInvestor
+    from finance.core.properties import goAhead, sStars, saveData, table1, defaultId, noSuchRecord #<carpetaorigen>.<nombreArchivoPy>
+    from finance.core.functions import toInvest, splitter, investAdjust, WantToRepeat, getAge, getInvestorData, recordExistance, log, saveDataBase, wannaSave, updateInvestor
+
     scriptName = os.path.basename(__file__)
     
     log(sStars*3,scriptName)
@@ -36,7 +37,7 @@ try:
             justInvest = False
             message1 = ""
 
-        mdg          = round(emerFunds/monthly,2)
+        mdg = round(emerFunds/monthly,2)
 
         os.system("cls")
         print()
@@ -60,7 +61,7 @@ try:
             print(f"Primero agrega ${toJump:,.2f} a Emergencias y después")
             toAdd     = toAdd - toJump
             emerFunds = emerFunds + toJump
-            emerPerc, nextLevel = splitter(emerFunds)
+            emerPerc, nextLevel = splitter(emerFunds,justInvest)
         
         log(f"Se trabaja con       : ${toAdd:,.2f}",scriptName)
             
@@ -95,7 +96,7 @@ try:
         if saveData:
             newRec = saveDataBase(monthly,emerFunds,mdg,currVariable,currFixed,toAdd,emerAmount,emerPerc,inversion,(100-emerPerc),etfAmount,cetesAmount,comments+message1)
             updateInvestor((emerFunds + emerAmount), (currVariable + etfAmount), (currFixed + cetesAmount))
-            print(f"Informacion guardada en {mainDbName} con el ID: {newRec}")
+            print(f"Informacion guardada en la base de datos con el ID: {newRec}")
 
         goAhead = WantToRepeat(goAhead)
         log(f"Repeat: {goAhead}",scriptName)

@@ -2,15 +2,19 @@ import os
 import functools
 import calendar
 import csv
-import sqlite3
-from Settings.properties import *
+
+
+from finance.core.properties import *
 from typing import Union
 from datetime import datetime, date
+from finance.core.db import get_connection
+
+conn   = get_connection()
+cursor = conn.cursor()
 
 def getParameters(userId:int, value:int) -> Union[int,float,str]:
     """Función que devuelve datos de la tabla de parámetros"""
-    conn   = sqlite3.connect(mainDbName)
-    cursor = conn.cursor()
+    
     field  = ""
     
     if value == 1: # Fecha de pago 
@@ -41,9 +45,9 @@ def getParameters(userId:int, value:int) -> Union[int,float,str]:
     return value
 
 def getFilePointer(scriptName):
-    logPath = "./logs/"
-    ext     = ".txt"
-    os.makedirs(logPath, exist_ok=True)
+    logPathBase = "./logs/"
+    ext         = ".txt"
+    
 
     paymentDay  = datetime.strptime(getParameters(defaultId,1), "%Y-%m-%d").date()
     nextPayDay  = datetime.strptime(getParameters(defaultId,2), "%Y-%m-%d").date()
@@ -58,14 +62,18 @@ def getFilePointer(scriptName):
         payment = "2"
 
     if scriptName == "todaysBalance.py":
+        logPath  = logPathBase + "balance/"
         fileName = "balance_log_" + monthName + "_" + str(paymentDay.year) + "_" + payment + ext
         
     elif scriptName == "toInvest.py":
+        logPath  = logPathBase + "invest/"
         fileName = "invest_log_" + str(today.year) + "_" + ext
 
     elif scriptName == "function":
+        logPath  = logPathBase + "functions/"
         fileName = "function_log_" + str(today.year) + "_" + ext
     
+    os.makedirs(logPath, exist_ok=True)
     filePointer = logPath + fileName
     
     return filePointer
@@ -155,8 +163,6 @@ def addition() -> Union[int, float]:
 @functionLog
 def recordExistance(table:str, recId:int) -> bool:
     """Evalua la existencia de determinado registro en determinada tabla"""
-    conn   = sqlite3.connect(mainDbName)
-    cursor = conn.cursor()
     command = f"SELECT 1 FROM {table} WHERE id = {recId};"
     cursor.execute(command)
     value = cursor.fetchone() # Puede regresar una tupla o nada
@@ -171,8 +177,6 @@ def recordExistance(table:str, recId:int) -> bool:
 @functionLog
 def getInvestorData(investorId:int, value:int) -> Union[int,float,str]:
     """Función que devuelve datos del inversor"""
-    conn   = sqlite3.connect(mainDbName)
-    cursor = conn.cursor()
     field  = ""
     
     if value == 1: # Birthday 
@@ -247,7 +251,6 @@ def splitter(total,mode):
             emerPerc = 0 
         else:
             emerPerc  = emePerces[position]
-            
             
         nextLevel = int(mdgs[position])
 
@@ -333,8 +336,6 @@ def saveDataCsv(monthly,emergencies,mdgs,currVariable,curFixed,working,emerAmoun
 @functionLog
 def saveDataBase(monthly,emergencies,mdgs,currVariable,curFixed,working,emerAmount,emerPer,investment,invPerc,varAmount,fixedAmount,comments) -> int:
     """Guarda información en la Base de Datos y devuelve el id del registro"""
-    conn    = sqlite3.connect(mainDbName)
-    cursor  = conn.cursor()
     values  = []
 
     command = """INSERT INTO investments (
@@ -393,8 +394,6 @@ def saveDataBase(monthly,emergencies,mdgs,currVariable,curFixed,working,emerAmou
 def updateInvestor(emerFund:float, variableAmt:float, fixedAmt:float):
     """Actualiza registros de la tabla investors"""
     totalValue = round((variableAmt + fixedAmt),2)
-    conn = sqlite3.connect(mainDbName)
-    cursor = conn.cursor()
     command = f"UPDATE investors SET emergency_fund = {emerFund}, variable_amt = {variableAmt}, fixed_amt = {fixedAmt}, total_portfolio = {totalValue}, last_update = datetime('now','localtime') WHERE id = {defaultId};"
     cursor.execute(command)
     conn.commit()
