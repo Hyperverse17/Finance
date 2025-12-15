@@ -1,6 +1,7 @@
 import sqlite3
 import sys
 import time
+import os
 from pathlib import Path
 import git
 
@@ -30,6 +31,7 @@ def get_db_path():
         time.sleep(1)
         sys.exit(0)
 
+    os.system("cls")
     return db_path
 
 # ---------- CONEXIÓN CENTRAL ----------
