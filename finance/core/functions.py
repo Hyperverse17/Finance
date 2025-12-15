@@ -2,8 +2,6 @@ import os
 import functools
 import calendar
 import csv
-
-
 from finance.core.properties import *
 from typing import Union
 from datetime import datetime, date
@@ -47,8 +45,6 @@ def getParameters(userId:int, value:int) -> Union[int,float,str]:
 def getFilePointer(scriptName):
     logPathBase = "./logs/"
     ext         = ".txt"
-    
-
     paymentDay  = datetime.strptime(getParameters(defaultId,1), "%Y-%m-%d").date()
     nextPayDay  = datetime.strptime(getParameters(defaultId,2), "%Y-%m-%d").date()
 
@@ -398,3 +394,29 @@ def updateInvestor(emerFund:float, variableAmt:float, fixedAmt:float):
     cursor.execute(command)
     conn.commit()
     conn.close
+
+@functionLog
+def updateDates():
+    """Función para actualizar fechas de operación"""
+    userAnswer = input("\nDeseas actualizar las fechas? (s/n) 🤔: ")
+    message = ""
+    if userAnswer == 's' or userAnswer == 'S':
+        os.system("cls")
+        values = []
+        paymentDate = input("Ingresa Fecha de Pago         : ")
+        nextPaymentDate = input("Ingresa Fecha de Próximo Pago : ")
+        budget = input("Ingresa Presupuesto           : ")
+        command = """INSERT INTO parameters (payment_day, next_payment_day, free_spending, user_id) VALUES (?, ?, ?, ?);"""
+        values.append(paymentDate)
+        values.append(nextPaymentDate)
+        values.append(budget)
+        values.append(defaultId)
+        values = tuple(values)
+
+        cursor.execute(command,values)
+        conn.commit()
+        conn.close
+        message = f"Informacion actualizada correctamente!"
+
+        return message
+

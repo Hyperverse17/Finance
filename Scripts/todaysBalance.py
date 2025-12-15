@@ -79,6 +79,7 @@ except(greaterThanZeroError):
 
 except(updateDateError):
     print(log(dateError.message,scriptName))
+    print(updateDates())
 
 except(FileNotFoundError) as error:
     print("Parece que algo salio mal con el archivo")
