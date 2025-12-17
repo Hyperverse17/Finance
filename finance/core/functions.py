@@ -224,7 +224,7 @@ def splitter(total,mode):
     emePerces = (100,75,50,25,15,10)
     mdgs      = getMdgs()
     
-    if total >= mdgs[0]:
+    if total >= mdgs[0]: # si es mayor o igual a 1 MDG
         if (total >= mdgs[0] and total < mdgs[1]): # [1,3) MDG
             position = 1
 
@@ -240,16 +240,16 @@ def splitter(total,mode):
         elif total >= mdgs[4]: # [24, inf) MDG
             position = 5
 
-        else: # cero meses de tus gastos
-            position = 0
+    else: # cero meses de tus gastos
+        position = 0
             
-        if mode == True: # Just Investments
-            emerPerc = 0 
-        else:
-            emerPerc  = emePerces[position]
+    if mode == True: # Just Investments
+        emerPerc = 0 
+    else:
+        emerPerc  = emePerces[position]
             
-        nextLevel = int(mdgs[position])
-
+    nextLevel = int(mdgs[position])
+    
     return emerPerc, nextLevel
 
 @functionLog
