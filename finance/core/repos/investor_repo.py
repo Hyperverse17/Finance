@@ -3,7 +3,7 @@ from finance.core.db import get_connection
 
 def rowToUser(user_row) -> User:
     """Instancia un objeto de User a partir de un select"""
-    user = User(id=user_row[0], name=user_row[1], last_name=user_row[2], birthday=user_row[3])
+    user = User(id=user_row[0], name=user_row[1], last_name=user_row[2], birthday=user_row[3], gender=user_row[4], email=user_row[5])
     return user
 
 def getUserById(user_id:int) -> User:
@@ -37,3 +37,4 @@ def getInvestorById(investor_id: int) -> Investor | None:
         return None
     else:
         return rowToInvestor(investor_row)
+    

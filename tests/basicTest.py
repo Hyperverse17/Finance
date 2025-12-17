@@ -6,7 +6,7 @@ print("\n--- Test de clases y funciones ---\n")
 
 def rowToUser(user_row) -> User:
     """Instancia un objeto de User a partir de un select"""
-    user = User(id=user_row[0], name=user_row[1], last_name=user_row[2], birthday=user_row[3])
+    user = User(id=user_row[0], name=user_row[1], last_name=user_row[2], birthday=user_row[3], gender=user_row[4], email=user_row[5])
     return user
 
 def getUserById(user_id:int) -> User:
@@ -16,7 +16,6 @@ def getUserById(user_id:int) -> User:
     cursor.execute("""SELECT id, name, last_name, birthday, gender, email, active FROM users WHERE id = ?""",(user_id,),)
     user_row = cursor.fetchone()
     conn.close()
-
     if user_row is None:
         return None
     else:
@@ -27,7 +26,6 @@ def rowToInvestor(investor_row) -> Investor:
     user_id = investor_row[0]
     user    = getUserById(user_id)
     investor = Investor(user, nickname=investor_row[1], investment_rule=investor_row[2], monthly_expenses=investor_row[3], emergency_fund=investor_row[4], variable_amt=investor_row[5], fixed_amt=investor_row[6])
-    
     return investor
 
 def getInvestorById(investor_id: int) -> Investor | None:
@@ -42,14 +40,16 @@ def getInvestorById(investor_id: int) -> Investor | None:
         return None
     else:
         return rowToInvestor(investor_row)
-
+    
 id = int(input("\nIngresa un id de inversor: "))
 investor = getInvestorById(id)
 
 print(investor.name)
 print(investor.last_name)
 print(investor.birthday)
+print(investor.email)
 print(investor.age)
+print(investor.gender)
 
 print(investor.nickname)
 print(investor.investment_rule)
