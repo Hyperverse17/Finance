@@ -5,20 +5,31 @@ cursor = conn.cursor()
 
 # Crear tabla si no existe
 cursor.execute("""
-CREATE TABLE IF NOT EXISTS investors(
+CREATE TABLE IF NOT EXISTS users(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT,
     last_name TEXT,
     birthday DATE,
-    investment_rule INTEGER,
-    monthly_expenses REAL,
+    gender TEXT CHECK(gender IN ('Female', 'Male')),
+    email TEXT UNIQUE,
+    active BOOL,
+    last_update TIMESTAMP
+    )""")
+
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS investors(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER UNIQUE,
+    nickname TEXT UNIQUE,
+    investment_rule INTEGER DEFAULT 100,
+    monthly_expenses REAL DEFAULT 10000,
     emergency_fund REAL,
     variable_amt REAL,
     fixed_amt REAL,
     total_portfolio REAL,
-    last_update TIMESTAMP DEFAULT (datetime('now','localtime'))
-)
-""")
+    last_update TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+)""")
 
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS investments (
@@ -44,8 +55,7 @@ CREATE TABLE IF NOT EXISTS investments (
     date DATE DEFAULT (date('now','localtime')),
     last_update TIMESTAMP DEFAULT (datetime('now','localtime')),
     FOREIGN KEY (investor) REFERENCES users(id)
-)
-""")
+)""")
 
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS parameters(
