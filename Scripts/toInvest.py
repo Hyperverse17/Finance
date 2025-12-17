@@ -2,8 +2,9 @@ try:
     import os
     import time
     import sqlite3
-    from finance.core.properties import goAhead, sStars, saveData, table1, defaultId, noSuchRecord, greaterThanZeroError #<carpetaorigen>.<nombreArchivoPy>
+    from finance.core.properties import goAhead, sStars, saveData, table1, defaultId #<carpetaorigen>.<nombreArchivoPy>
     from finance.core.functions import toInvest, splitter, investAdjust, WantToRepeat, getAge, getInvestorData, recordExistance, log, saveDataBase, wannaSave, updateInvestor
+    from finance.core.classes import noSuchRecord, greaterThanZeroError
 
     scriptName = os.path.basename(__file__)
     
