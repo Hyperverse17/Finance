@@ -1,1 +1,1 @@
-print("Inicializando funciones y propiedades...")
+print("Inicializando funciones, clases, propiedades y errores...")

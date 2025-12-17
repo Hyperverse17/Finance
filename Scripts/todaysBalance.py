@@ -3,7 +3,7 @@ try:
     import os
     from finance.core.properties import * #<carpetaorigen>.<nombreArchivoPy>
     from finance.core.functions import *
-    from finance.core.classes import noSuchRecord, dateError, updateDateError, greaterThanZeroError, zeroValueError
+    from finance.models.classes import noSuchRecord, dateError, updateDateError, greaterThanZeroError, zeroValueError
 
     scriptName = os.path.basename(__file__)
 

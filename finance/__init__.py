@@ -1,1 +1,1 @@
-print("Inicializando proyecto...")
+print("Cargando utilidades...")
