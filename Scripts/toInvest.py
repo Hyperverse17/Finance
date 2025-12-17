@@ -2,7 +2,7 @@ try:
     import os
     import time
     import sqlite3
-    from finance.core.properties import goAhead, sStars, saveData, table1, defaultId, noSuchRecord #<carpetaorigen>.<nombreArchivoPy>
+    from finance.core.properties import goAhead, sStars, saveData, table1, defaultId, noSuchRecord, greaterThanZeroError #<carpetaorigen>.<nombreArchivoPy>
     from finance.core.functions import toInvest, splitter, investAdjust, WantToRepeat, getAge, getInvestorData, recordExistance, log, saveDataBase, wannaSave, updateInvestor
 
     scriptName = os.path.basename(__file__)
@@ -28,6 +28,10 @@ try:
         currVariable = float(input("Total en Renta Variable : "))
         currFixed    = float(input("Total en Renta Fija     : "))
         toAdd        = float(input("Cuanto deseas añadir    : "))
+
+        if toAdd <= 0:
+            raise greaterThanZeroError
+        
         justInvest   = input("Sólo Inversión (s/n)?   : ")
         
         if justInvest == 's' or justInvest == 'S':
@@ -111,6 +115,11 @@ except noSuchRecord as e:
     os.system("cls")
     print()
     print(log(f"{e} {defaultId} en {table1}",scriptName))
+
+except greaterThanZeroError as e:
+    os.system("cls")
+    print()
+    print(log(f"{e}",scriptName))
 
 except ValueError as e:
     os.system("cls")
