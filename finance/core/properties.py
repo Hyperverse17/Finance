@@ -72,7 +72,7 @@ class updateDateError(Exception):
 
 class greaterThanZeroError(Exception):
     def __init__(self) -> None:
-        self.message = "El monto total debe ser mayor que cero"
+        self.message = "El monto debe ser mayor que cero"
         super().__init__(self.message)
 
 class noSuchRecord(Exception):
