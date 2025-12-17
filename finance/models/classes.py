@@ -25,8 +25,12 @@ class Investor(User):
         self.emergency_fund = emergency_fund
         self.variable_amt = variable_amt
         self.fixed_amt = fixed_amt
-        self.total_portfolio = (self.variable_amt + self.fixed_amt)
         self.last_update = str(datetime.now().strftime("%Y%m%d%H%M%S"))
+
+    def getTotalPortfolio(self) -> float:
+        """Devuelve la suma de variable amount y fixed amount"""
+        totalPortfolio = round(self.variable_amt + self.fixed_amt,2)
+        return totalPortfolio
         
 class Investment():
     pass
