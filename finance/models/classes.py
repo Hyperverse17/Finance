@@ -13,6 +13,15 @@ class User:
         self.email = email
         self.active = True
         self.usr_last_update = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    def __str__(self) -> str:
+        """Retorna un string con información de cada instancia de User"""
+        if self.active:
+            status = "Active"
+        else:
+            status = "Inctive"
+
+        return f"User {self.id} ({status}): {self.name} {self.last_name}."
 
 class Investor(User):
     """Inversores"""
@@ -20,11 +29,19 @@ class Investor(User):
         super().__init__(user.id, user.name, user.last_name, user.birthday, user.gender, user.email)
         self.nickname = nickname
         self.investment_rule = investment_rule
-        self.monthly_expenses = monthly_expenses
-        self.emergency_fund = emergency_fund
-        self.variable_amt = variable_amt
-        self.fixed_amt = fixed_amt
+        self.monthly_expenses = round(monthly_expenses,2)
+        self.emergency_fund = round(emergency_fund,2)
+        self.variable_amt = round(variable_amt,2)
+        self.fixed_amt = round(fixed_amt,2)
         self.inv_last_update = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    def __str__(self) -> str:
+        """Retorna un string con información de cada instancia de Investor"""
+        if self.active:
+            status = "Active"
+        else:
+            status = "Inctive"
+        return f"Investor {self.id} ({status}): {self.name} {self.last_name} [{self.nickname}]."
 
     def getTotalPortfolio(self) -> float:
         """Devuelve la suma de variable amount y fixed amount"""
