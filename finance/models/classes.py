@@ -1,5 +1,4 @@
 from datetime import datetime
-
 class User:
     """Usuarios del sistema"""
     def __init__(self, id: int | None, name: str, last_name: str, birthday:str, gender:str, email:str):
@@ -13,7 +12,7 @@ class User:
         self.gender = gender.title()
         self.email = email
         self.active = True
-        self.last_update = str(datetime.now().strftime("%Y%m%d%H%M%S"))
+        self.usr_last_update = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 class Investor(User):
     """Inversores"""
@@ -25,7 +24,7 @@ class Investor(User):
         self.emergency_fund = emergency_fund
         self.variable_amt = variable_amt
         self.fixed_amt = fixed_amt
-        self.last_update = str(datetime.now().strftime("%Y%m%d%H%M%S"))
+        self.inv_last_update = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     def getTotalPortfolio(self) -> float:
         """Devuelve la suma de variable amount y fixed amount"""

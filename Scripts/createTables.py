@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS users(
     gender TEXT CHECK(gender IN ('Female', 'Male')),
     email TEXT UNIQUE,
     active BOOL,
-    last_update TIMESTAMP
+    last_update TIMESTAMP DEFAULT (datetime('now','localtime'))
     )""")
 
 cursor.execute("""
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS investors(
     variable_amt REAL,
     fixed_amt REAL,
     total_portfolio REAL,
-    last_update TIMESTAMP,
+    last_update TIMESTAMP DEFAULT (datetime('now','localtime')),
     FOREIGN KEY (user_id) REFERENCES users(id)
 )""")
 

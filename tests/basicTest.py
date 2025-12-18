@@ -2,8 +2,6 @@ from finance.core.functions import getInvestorById, getUserById
 
 print("\n--- Test de clases y funciones ---\n")
 
-
-
 id = int(input("\nIngresa un id: "))
 
 user = getUserById(id)
@@ -22,5 +20,5 @@ if investor != None:
 
     print(investor.nickname)
     print(investor.investment_rule)
-    print(investor.total_portfolio)
+    print(investor.getTotalPortfolio())
     print(investor.last_update)

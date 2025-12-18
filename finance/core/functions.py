@@ -1,7 +1,6 @@
 import os
 import functools
 import calendar
-import csv
 from typing import Union
 from datetime import datetime, date
 from finance.models.classes import Investor, User
@@ -172,58 +171,17 @@ def recordExistance(table:str, recId:int) -> bool:
     return value
 
 @functionLog
-def getInvestorData(investorId:int, value:int) -> Union[int,float,str]:
-    """Función que devuelve datos del inversor"""
-    field  = ""
-    
-    if value == 1: # Birthday 
-        field = "birthday"
-
-    elif value == 2: # Investment Rule
-        field = "investment_rule"
-        
-    elif value == 3: # Monthly Expenses
-        field = "monthly_expenses"
-
-    elif value == 4: # Name
-        field = "name"
-
-    else:
-        pass
-
-    command = F"SELECT {field} FROM investors WHERE id = {investorId};"
-    cursor.execute(command)
-    value = cursor.fetchone()[0] # Se coloca para especificar la posición porque originalmente regresa una tupla
-    conn.close
-
-    return value
-
-@functionLog
-def getAge(birthDay:str) -> int:
-    """Recibe un string con una fecha de nacimiento YYYY-MM-DD y devuelve un entero con la edad en años"""
-    today     = datetime.today() 
-    birthDate = datetime.strptime(birthDay, "%Y-%m-%d")
-    age = int(today.year - birthDate.year - ((today.month, today.day) < (birthDate.month, birthDate.day))) # Se hace un comparativo entre mes y día (del día) y de mes y dia del cumpleaños, si el resultado es true, al evaluarse se considera como 1, si es false, 0
-    return age
-
-@functionLog
-def toInvest():
-    myAge = getAge(getInvestorData(defaultId,1)) # Segundo parametro = 1 para extraer la fecha de cumpleaños
-    toInvestPerc = (getInvestorData(defaultId,2))-myAge # Segundo parametro = 2 para extraer la regla de inversión
-    return toInvestPerc
-
-@functionLog
-def getMdgs():
-    monthly = getInvestorData(defaultId,3)
+def getMdgs(monthly):
+    """Regresa un arreglo con la escala de MDGS"""
     months = (1, 3, 6, 12, 24, symbolicLimit)
     mdgs   = [x * monthly for x in months]
     return mdgs
 
 @functionLog
-def splitter(total,mode):
+def splitter(total,monthly,mode):
     """Regresa el porcentaje que debe ser destinado al fondo de emergencias"""
     emePerces = (100,75,50,25,15,10)
-    mdgs      = getMdgs()
+    mdgs      = getMdgs(monthly)
     
     if total >= mdgs[0]: # si es mayor o igual a 1 MDG
         if (total >= mdgs[0] and total < mdgs[1]): # [1,3) MDG
@@ -254,11 +212,10 @@ def splitter(total,mode):
     return emerPerc, nextLevel
 
 @functionLog
-def investAdjust(currVariable:float, currFixed:float, toAdd:float):
+def investAdjust(currVariable:float, currFixed:float, toAdd:float, variablePer:int):
     """Funcion que determina cuando destinar a Renta Variable y Renta Fija"""
-    variablePer = toInvest()
-    fixedPer    = 100-variablePer
 
+    fixedPer     = 100-variablePer
     investTotal  = currVariable + currFixed
     shldVariable = investTotal*(variablePer/100)
     shldFixed    = investTotal*(fixedPer/100)
@@ -294,47 +251,11 @@ def investAdjust(currVariable:float, currFixed:float, toAdd:float):
 
     return toInvestVar, toInvestFixed
 
-def saveDataCsv(monthly,emergencies,mdgs,currVariable,curFixed,working,emerAmount,emerPer,investment,invPerc,varAmount,fixedAmount,comments):
-    """Funcion para escribir informacion en un csv"""
-    filePath = "./dataBase/"
-    fileExt  = ".csv"
-    os.makedirs(filePath, exist_ok=True)
-    fileName = "Investments_2" + str(today.year) + fileExt
-
-    filePointer = filePath + fileName
-
-    data = {
-        "Edad":getAge(getInvestorData(defaultId,1)),
-        "Regla":str(getInvestorData(defaultId,2)),
-        "Gastos_Mensuales":monthly,
-        "Fondo_Emergencias_Actual":emergencies,
-        "Meses_Gastos":mdgs,
-        "Renta_Variable_Actual":currVariable,
-        "Renta_Fija_Actual":curFixed,
-        "Adicion_Total":working,
-        "Adicion_Emergencias":emerAmount,
-        "Porentaje_Emergencias":emerPer,
-        "Adicion_Inversiones":investment,
-        "Porcentaje_Inversiones":invPerc,
-        "Adicion_Renta_Variable":varAmount,
-        "Adicion_Renta_Fija":fixedAmount,
-        "Fecha":date.today().isoformat(),
-        "Comentarios":comments
-    }
-
-    newFile = not os.path.exists(filePointer)
-
-    with open(filePointer, "a", newline="") as file:
-        writer = csv.DictWriter(file,fieldnames=data.keys())
-        if newFile:
-            writer.writeheader()
-        writer.writerow(data)
-
 @functionLog
-def saveDataBase(monthly,emergencies,mdgs,currVariable,curFixed,working,emerAmount,emerPer,investment,invPerc,varAmount,fixedAmount,comments) -> int:
+def saveDataBase(investor: Investor,emergencies,mdgs,currVariable,curFixed,working,emerAmount,emerPer,investment,invPerc,varAmount,fixedAmount,comments) -> int:
     """Guarda información en la Base de Datos y devuelve el id del registro"""
-    values  = []
 
+    values  = []
     command = """INSERT INTO investments (
         investor, 
         age, 
@@ -358,9 +279,9 @@ def saveDataBase(monthly,emergencies,mdgs,currVariable,curFixed,working,emerAmou
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"""
 
     values.append(defaultId)
-    values.append(getAge(getInvestorData(defaultId,1)))
-    values.append(getInvestorData(defaultId,2))
-    values.append(monthly)
+    values.append(investor.age)
+    values.append(investor.investment_rule)
+    values.append(investor.monthly_expenses)
     values.append(emergencies)
     values.append(mdgs)
     values.append(currVariable)
@@ -372,8 +293,8 @@ def saveDataBase(monthly,emergencies,mdgs,currVariable,curFixed,working,emerAmou
     values.append(fixedAmount)
     values.append(emerPer)
     values.append(invPerc)
-    values.append(getInvestorData(defaultId,2)-(getAge(getInvestorData(defaultId,1)))) # variable_percentage
-    values.append(100-(getInvestorData(defaultId,2)-(getAge(getInvestorData(defaultId,1))))) # fixed_perentage
+    values.append(investor.investment_rule-investor.age) # variable_percentage
+    values.append(100-(investor.investment_rule-investor.age)) # fixed_perentage
     values.append(comments) # comments
     values.append(date.today().isoformat()) # date
     values = tuple(values)
@@ -388,10 +309,10 @@ def saveDataBase(monthly,emergencies,mdgs,currVariable,curFixed,working,emerAmou
     return recId
 
 @functionLog
-def updateInvestor(emerFund:float, variableAmt:float, fixedAmt:float):
+def updateInvestor(investor: Investor):
     """Actualiza registros de la tabla investors"""
-    totalValue = round((variableAmt + fixedAmt),2)
-    command = f"UPDATE investors SET emergency_fund = {emerFund}, variable_amt = {variableAmt}, fixed_amt = {fixedAmt}, total_portfolio = {totalValue}, last_update = datetime('now','localtime') WHERE id = {defaultId};"
+    totalValue = investor.getTotalPortfolio()
+    command = f"UPDATE investors SET emergency_fund = {investor.emergency_fund}, variable_amt = {investor.variable_amt}, fixed_amt = {investor.fixed_amt}, total_portfolio = {totalValue}, last_update = '{investor.inv_last_update}' WHERE id = {defaultId};"
     cursor.execute(command)
     conn.commit()
     conn.close
