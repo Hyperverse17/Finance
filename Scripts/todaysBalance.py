@@ -8,7 +8,8 @@ try:
     scriptName = os.path.basename(__file__)
 
     if recordExistance(table1, defaultId) == True:
-        name = getInvestorData(defaultId,4)
+        investor   = getInvestorById(defaultId)
+        name       = investor.name
         log(f"Inicia sesion        : [{defaultId}] {name}",scriptName)
         paymentDay  = datetime.strptime(getParameters(defaultId,1), "%Y-%m-%d").date()
         nextPayDay  = datetime.strptime(getParameters(defaultId,2), "%Y-%m-%d").date()
