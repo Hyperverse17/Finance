@@ -6,16 +6,17 @@ try:
     from finance.models.classes import noSuchRecord, dateError, updateDateError, greaterThanZeroError, zeroValueError
 
     scriptName = os.path.basename(__file__)
-
-    if recordExistance(table1, defaultId) == True:
-        investor   = getInvestorById(defaultId)
-        name       = investor.name
-        log(f"Inicia sesion        : [{defaultId}] {name}",scriptName)
+    log(sStars*3,scriptName)
+    log("Obteniendo inversor...",scriptName)
+    investor = getInvestorById(defaultId)
+    if investor is None:
+        raise noSuchRecord
+    else:
+        name = investor.name
+        log(f"Inicia sesion      : [{defaultId}] {name}",scriptName)
         paymentDay  = datetime.strptime(getParameters(defaultId,1), "%Y-%m-%d").date()
         nextPayDay  = datetime.strptime(getParameters(defaultId,2), "%Y-%m-%d").date()
         totalBudget = float(getParameters(defaultId,3))
-    else:
-        raise noSuchRecord()
 
     deltaDays1 = today-paymentDay # Diferencia entre fechas [Tipo Date]
     deltaDays2 = nextPayDay-paymentDay
@@ -31,6 +32,7 @@ try:
     while goAhead:
         print()
         print(sStars + " Calculos del dia " + str(currDay) +" ("+ sDateMarkFmt + ") " + sStars)
+        print(f"                         Hola, {name}!")
         print()
         if remainingDays >= one:
             currentAmount = addition()
@@ -74,7 +76,7 @@ try:
 except noSuchRecord as e:
     os.system("cls")
     print()
-    print(log(f"{e} {defaultId} en {table1}",scriptName))
+    print(log(f"{e}: {defaultId}",scriptName))
 
 except(greaterThanZeroError):
     print(log(zeroValueError.message,scriptName))

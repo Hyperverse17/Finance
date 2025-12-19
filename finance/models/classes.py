@@ -64,7 +64,7 @@ class greaterThanZeroError(Exception):
 
 class noSuchRecord(Exception):
     def __init__(self) -> None:
-        self.message = "No existe el id"
+        self.message = "No se encontro el Id"
         super().__init__(self.message)
 
 dateError = updateDateError()

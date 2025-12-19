@@ -1,24 +1,16 @@
-from finance.core.functions import getInvestorById, getUserById
 
-print("\n--- Test de clases y funciones ---\n")
+from finance.models.classes import *
 
-id = int(input("\nIngresa un id: "))
+print("\n ----- Pruebas con clases ----- \n")
 
-user = getUserById(id)
-print(user.name)
-print(user.last_name)
-print(user.age)
+user1 = User(1,"otelo jovani", "galicia garcia", "1991-07-17", "male", "jovanigalicia17@gmail.com")
+investor1 = Investor(user1,"Hyperverse", 110, 33000.5689, 45000.0236, 31000.7878, 10000.99)
 
-investor = getInvestorById(id)
-if investor != None:
-    print(investor.name)
-    print(investor.last_name)
-    print(investor.birthday)
-    print(investor.email)
-    print(investor.age)
-    print(investor.gender)
 
-    print(investor.nickname)
-    print(investor.investment_rule)
-    print(investor.getTotalPortfolio())
-    print(investor.last_update)
+print(user1)
+print(investor1)
+
+print(investor1.emergency_fund)
+print(investor1.fixed_amt)
+print(investor1.variable_amt)
+print(investor1.getTotalPortfolio())
