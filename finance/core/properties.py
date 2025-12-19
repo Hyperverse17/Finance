@@ -57,10 +57,5 @@ t             = T/100
 f             = t/360
 dayCnt        = 0
 counter2      = 0
-#monthly       = 34600 # Gastos Mensuales a julio 2025
-
-############ Invest Rule #########
-#investRule    = 110 # Aggresive!
-#myBirthDay    = "1991-07-17"
 symbolicLimit = 10000 # mdgs simbólico límite
 

@@ -139,7 +139,7 @@ except PermissionError as e:
     print(log(f"{e}",scriptName))
 
 except sqlite3.DatabaseError as e:
-    #os.system("cls")
+    os.system("cls")
     print()
     print("Problema con la BD")
     print(log(f"{e}",scriptName))
