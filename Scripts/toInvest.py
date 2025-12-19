@@ -23,7 +23,7 @@ try:
         saveData = False    
         os.system("cls")
         print()
-        print(sStars + f" Emergencias e Inersiones - {investRule} " + sStars)
+        print(sStars + f" Emergencias e Inversiones - {investRule} " + sStars)
         print(f"                         Hola, {name}!")
         print()
         emerFunds    = float(input("Fondo de Emergencias    : "))
@@ -139,7 +139,7 @@ except PermissionError as e:
     print(log(f"{e}",scriptName))
 
 except sqlite3.DatabaseError as e:
-    #os.system("cls")
+    os.system("cls")
     print()
     print("Problema con la BD")
     print(log(f"{e}",scriptName))
