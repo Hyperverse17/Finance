@@ -7,23 +7,23 @@ try:
     from finance.models.classes import noSuchRecord, greaterThanZeroError
 
     scriptName = os.path.basename(__file__)
-    
     log(sStars*3,scriptName)
-    if recordExistance(table1, defaultId) == True:
-        investor   = getInvestorById(defaultId)
+    log("Obteniendo inversor...",scriptName)
+    investor   = getInvestorById(defaultId)
+    if investor is None:
+        raise noSuchRecord
+    else:    
         age        = investor.age
         investRule = investor.investment_rule 
         monthly    = investor.monthly_expenses
         name       = investor.name
         log(f"Inicia sesion        : [{defaultId}] {name}",scriptName)
-    else:
-        raise noSuchRecord()
 
     while goAhead:
         saveData = False    
         os.system("cls")
         print()
-        print(sStars + f" Emergencias e Inersiones - {investRule} " + sStars)
+        print(sStars + f" Emergencias e Inversiones - {investRule} " + sStars)
         print(f"                         Hola, {name}!")
         print()
         emerFunds    = float(input("Fondo de Emergencias    : "))
@@ -119,7 +119,7 @@ except ImportError as e:
 except noSuchRecord as e:
     os.system("cls")
     print()
-    print(log(f"{e} {defaultId} en {table1}",scriptName))
+    print(log(f"{e}: {defaultId}",scriptName))
 
 except greaterThanZeroError as e:
     os.system("cls")
