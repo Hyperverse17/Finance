@@ -5,10 +5,11 @@ try:
     from finance.core.functions import *
     from finance.models.classes import noSuchRecord, dateError, updateDateError, greaterThanZeroError, zeroValueError
 
-    scriptName = os.path.basename(__file__)
+    scriptName = "todaysBalance.py" # os.path.basename(__file__)
     log(sStars*3,scriptName)
     log("Obteniendo inversor...",scriptName)
     investor = getInvestorById(defaultId)
+
     if investor is None:
         raise noSuchRecord
     else:

@@ -6,7 +6,7 @@ try:
     from finance.core.functions import splitter, investAdjust, WantToRepeat, getInvestorById, recordExistance, log, saveDataBase, wannaSave, updateInvestor
     from finance.models.classes import noSuchRecord, greaterThanZeroError
 
-    scriptName = os.path.basename(__file__)
+    scriptName = "toInvest.py" # os.path.basename(__file__)
     log(sStars*3,scriptName)
     log("Obteniendo inversor...",scriptName)
     investor   = getInvestorById(defaultId)
@@ -29,12 +29,12 @@ try:
         emerFunds    = float(input("Fondo de Emergencias    : "))
         currVariable = float(input("Total en Renta Variable : "))
         currFixed    = float(input("Total en Renta Fija     : "))
-        toAdd        = float(input("Cuanto deseas añadir    : "))
+        toAdd        = float(input("Cuanto deseas agregar   : "))
 
         if toAdd <= 0:
             raise greaterThanZeroError
         
-        justInvest   = input("Sólo Inversión (s/n)?   : ")
+        justInvest   = input("Solo Inversion (s/n)?   : ")
         
         if justInvest == 's' or justInvest == 'S':
             justInvest = True
@@ -94,7 +94,6 @@ try:
         print(log(f" - Renta Fija        : ${cetesAmount:,.2f}",scriptName))
         print(log("",scriptName))
         print(log(f"Siguiente objetivo   : ${nextLevel:,.2f}",scriptName))
-        print()
 
         comments = input("Comentarios          : ")
         saveData = wannaSave(saveData)
