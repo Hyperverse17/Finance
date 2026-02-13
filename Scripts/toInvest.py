@@ -34,14 +34,24 @@ try:
         if toAdd <= 0:
             raise greaterThanZeroError
         
-        justInvest   = input("Solo Inversion (s/n)?   : ")
+        justInvest   = input("Sólo Inversion (s/n)?   : ")
         
         if justInvest == 's' or justInvest == 'S':
-            justInvest = True
-            message1 = " (Sólo inv)."
+            justInvest   = True
+            justVariable = input("Sólo Variable (s/n)?    : ")
+            
+            if justVariable == 's' or justVariable == 'S':
+                justVariable = True
+                message1     = " (Sólo Variable)."
+                
+            else:
+                justVariable = False
+                message1     = " (Sólo Inversión)."
+                
         else:
-            justInvest = False
-            message1 = ""
+            justInvest   = False
+            justVariable = False
+            message1     = ""
 
         mdg = round(emerFunds/monthly,2)
 
@@ -73,7 +83,12 @@ try:
             
         emergencias                = toAdd*(emerPerc/100) # Total para emergencias
         inversion                  = toAdd*((1-(emerPerc/100))) # Total pra inversiones
-        variablePer                = (investRule-age)
+        
+        if justVariable == True:
+            variablePer = 100
+        else:
+            variablePer = (investRule-age)
+        
         toInvestVar, toInvestFixed = investAdjust(currVariable, currFixed, inversion, variablePer) # Renta variable y renta fija
          
         emerAmount  = round(emergencias,2)
