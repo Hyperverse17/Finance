@@ -55,15 +55,23 @@ try:
                 print()
                 if remainingDays > one:
                     if difference > zero:
-                        print(log("Felicidades, hoy puedes gastar tus ${:,.2f}".format(dailyBudget) + " diarios mas ${:,.2f}".format(difference),scriptName))       
+                        print("Felicidades!")
+                        print(log("Hoy puedes gastar tus ${:,.2f}".format(dailyBudget) + " diarios mas ${:,.2f}".format(difference),scriptName))
+                        print(log("${:,.2f}".format(dailyBudget + difference) + " en total!" ,scriptName))
+                        
                     elif difference == zero:
                         print(log("Vas bien, hoy solo puedes gastar tu presupuesto diario: ${:,.2f}".format(dailyBudget),scriptName))
+                        
                     elif difference < zero:
                         currentDaily = (dailyBudget + difference)
+                        
                         if currentDaily > zero:
                             print(log("Cuidado, hoy solo tienes: ${:,.2f}".format(currentDaily),scriptName))
+                            
                         elif currentDaily <= zero:
                             print(log("Mejor no gastes nada!",scriptName))
+                            print(log("Te faltan: ${:,.2f}".format(shouldAmount-currentAmount),scriptName))
+                            
                 elif remainingDays == one:
                     print(log("Llegaste al final, hoy puedes gastar: ${:,.2f}".format(currentAmount),scriptName))
                 
