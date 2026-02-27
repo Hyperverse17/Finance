@@ -58,6 +58,20 @@ CREATE TABLE IF NOT EXISTS investments (
 )""")
 
 cursor.execute("""
+CREATE TABLE IF NOT EXISTS portfolios(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    investment_id integer,
+    emergency_fund REAL,
+    variable_amt REAL,
+    fixed_amt REAL,
+    total_portfolio REAL,
+    last_update TIMESTAMP DEFAULT (datetime('now','localtime')),
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (investment_id) REFERENCES investments(id)
+)""")
+
+cursor.execute("""
 CREATE TABLE IF NOT EXISTS parameters(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id integer,
@@ -68,6 +82,21 @@ CREATE TABLE IF NOT EXISTS parameters(
     FOREIGN KEY (user_id) REFERENCES investors(id)
 )
 """)
+
+command = """CREATE VIEW vw_otelo_portfolio AS
+        SELECT 
+        id,
+        investment_id AS Referencia,
+        printf('$%,.2f', emergency_fund) AS Emergencias, 
+        printf('$%,.2f', variable_amt) AS Renta_Variable, 
+        printf('$%,.2f', fixed_amt) AS Renta_Fija, 
+        printf('$%,.2f', total_portfolio) AS Portafolio_Total, 
+        last_update 
+        FROM portfolios
+        WHERE user_id = 1
+        ORDER BY last_update DESC;"""
+        
+cursor.execute(command)
 
 # Guardar cambios y cerrar
 conn.commit()

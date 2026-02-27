@@ -3,7 +3,7 @@ try:
     import time
     import sqlite3
     from finance.core.properties import goAhead, sStars, saveData, table1, defaultId #<carpetaorigen>.<nombreArchivoPy>
-    from finance.core.functions import splitter, investAdjust, WantToRepeat, getInvestorById, recordExistance, log, saveDataBase, wannaSave, updateInvestor
+    from finance.core.functions import splitter, investAdjust, WantToRepeat, getInvestorById, recordExistance, log, saveDataBase, wannaSave, updateInvestor, updatePortfolio
     from finance.models.classes import noSuchRecord, greaterThanZeroError
 
     scriptName = "toInvest.py" # os.path.basename(__file__)
@@ -119,7 +119,8 @@ try:
             investor.variable_amt   = (currVariable + etfAmount)
             investor.fixed_amt      = (currFixed + cetesAmount)
             updateInvestor(investor)
-            print(f"Informacion guardada en la base de datos con el ID: {newRec}")
+            updatePortfolio(investor, newRec)
+            print(f"\nInformacion guardada en la base de datos con el ID: {newRec}")
 
         goAhead = WantToRepeat(goAhead)
         log(f"Repeat: {goAhead}",scriptName)

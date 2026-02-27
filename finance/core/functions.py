@@ -318,6 +318,25 @@ def updateInvestor(investor: Investor):
     conn.close
 
 @functionLog
+def updatePortfolio(investor: Investor, investment_id: int):
+    """Actualiza registros de la tabla portfolios"""
+    values     = []
+    totalValue = investor.getTotalPortfolio()
+    command    = f"INSERT INTO portfolios (user_id, investment_id, emergency_fund, variable_amt, fixed_amt, total_portfolio) VALUES (?, ?, ?, ?, ?, ?)"
+
+    values.append(defaultId)
+    values.append(investment_id)
+    values.append(investor.emergency_fund)
+    values.append(investor.variable_amt)
+    values.append(investor.fixed_amt)
+    values.append(totalValue)
+    values = tuple(values)
+
+    cursor.execute(command, values)
+    conn.commit()
+    conn.close
+
+@functionLog
 def updateDates():
     """Función para actualizar fechas de operación"""
     userAnswer = input("\nDeseas actualizar las fechas? (s/n) 🤔: ")
