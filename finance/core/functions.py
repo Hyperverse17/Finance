@@ -144,17 +144,24 @@ def wannaSave(goAhead:bool) -> bool:
 @functionLog
 def addition() -> Union[int, float]:
     """Funcion auxiliar para realizar una suma de n valores"""
-    addFlag = True
-    fmtCnt  = zero
+    addFlag  = True
+    fmtCnt   = zero
     totalSum = zero
+    tddAmt   = zero
+
     while addFlag:
         fmtCnt += 1
-        currAmt = input("Ingresa monto " + str(fmtCnt) + ": ") # Nu debit + bx+ + yay + efectivo
+        word = "monto TDD      " if fmtCnt == 1 else "monto adicional"
+        currAmt = input(f"Ingresa {word} " + str(fmtCnt) + ": ") # Revolut + bx+ + yay + efectivo
+
+        if fmtCnt == 1:
+            tddAmt = float(currAmt)
+
         if currAmt == "":
             currAmt = 0
             addFlag = False
         totalSum += float(currAmt)
-    return totalSum
+    return totalSum, tddAmt
 
 @functionLog
 def recordExistance(table:str, recId:int) -> bool:
@@ -401,5 +408,22 @@ def getInvestorById(investor_id: int) -> Investor | None:
         return None
     else:
         return rowToInvestor(investor_row)
+    
+def to_add_substract(dailyBudget:float, difference:float, tdd_amt:float) -> float | str:
+    """Regresa el monto a agregar o retirar de TDD"""
+
+    if difference + dailyBudget > 0:
+        to_add_substract = round((dailyBudget + difference) - tdd_amt,2)
+    else:
+         to_add_substract = round(tdd_amt*-1,2)
+
+    if to_add_substract >= 0:
+        word_1 = "Agrega"
+        word_2 = "a"
+    else:
+        word_1 = "Retira"
+        word_2 = "de"
+
+    return to_add_substract, word_1, word_2
     
 

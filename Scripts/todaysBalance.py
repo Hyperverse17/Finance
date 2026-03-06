@@ -1,6 +1,7 @@
 try:
     import time
     import os
+    import math
     from finance.core.properties import * #<carpetaorigen>.<nombreArchivoPy>
     from finance.core.functions import *
     from finance.models.classes import noSuchRecord, dateError, updateDateError, greaterThanZeroError, zeroValueError
@@ -36,11 +37,12 @@ try:
         print(f"                         Hola, {name}!")
         print()
         if remainingDays >= one:
-            currentAmount = addition()
+            currentAmount, tddAmt = addition()
             if currentAmount > 0:
                 os.system("cls")
-                shouldAmount  = totalBudget-(dailyBudget*elapsedDays)
-                difference    = currentAmount-shouldAmount
+                shouldAmount     = totalBudget-(dailyBudget*elapsedDays)
+                difference       = currentAmount-shouldAmount
+                to_add_substract, action, origin = to_add_substract(dailyBudget, difference, tddAmt)
                 print()
                 print(log("Calculos del dia " + str(currDay) +" ("+ sDateMarkFmt + ")",scriptName))
                 print()
@@ -55,16 +57,12 @@ try:
                 print()
                 if remainingDays > one:
                     if difference > zero:
-                        print("Felicidades!")
                         print(log("Hoy puedes gastar tus ${:,.2f}".format(dailyBudget) + " diarios mas ${:,.2f}".format(difference),scriptName))
                         print(log("${:,.2f}".format(dailyBudget + difference) + " en total!" ,scriptName))
-                        
                     elif difference == zero:
                         print(log("Vas bien, hoy solo puedes gastar tu presupuesto diario: ${:,.2f}".format(dailyBudget),scriptName))
-                        
                     elif difference < zero:
                         currentDaily = (dailyBudget + difference)
-                        
                         if currentDaily > zero:
                             print(log("Cuidado, hoy solo tienes: ${:,.2f}".format(currentDaily),scriptName))
                             
@@ -74,6 +72,8 @@ try:
                             
                 elif remainingDays == one:
                     print(log("Llegaste al final, hoy puedes gastar: ${:,.2f}".format(currentAmount),scriptName))
+                
+                print(log("{action} ${amount:,.2f} {origin} tu TDD".format(action=action, amount=abs(to_add_substract), origin=origin),scriptName))
                 
             else:
                 raise zeroValueError  
