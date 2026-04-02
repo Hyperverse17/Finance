@@ -1,16 +1,28 @@
 
-from finance.models.classes import *
+from finance.core.balancers import portfolio_balancer
 
-print("\n ----- Pruebas con clases ----- \n")
+print("\n ----- Balanceador de Renta Variable ----- \n")
 
-user1 = User(1,"otelo jovani", "galicia garcia", "1991-07-17", "male", "jovanigalicia17@gmail.com")
-investor1 = Investor(user1,"Hyperverse", 110, 33000.5689, 45000.0236, 31000.7878, 10000.99)
+my_portfolio = {}
 
+type = input("Fija/Variable (0,1): ")
 
-print(user1)
-print(investor1)
+if type == "0":
+    my_portfolio['CETES'] = float(input("Total en CETES: "))
+    my_portfolio['BONOS'] = float(input("Total en Bonos: "))
+    my_portfolio['UDIBONOS'] = float(input("Total UDIBonos: "))
+    type = "fixed"
+    
+elif type == "1":
+    my_portfolio['S&P500'] = float(input("Total en S&P500: "))
+    my_portfolio['Emergentes'] = float(input("Total en Mercados Emergentes: "))
+    my_portfolio['Oro'] = float(input("Total en Oro: "))
+    type = "variable"
 
-print(investor1.emergency_fund)
-print(investor1.fixed_amt)
-print(investor1.variable_amt)
-print(investor1.getTotalPortfolio())
+to_add = float(input("Nueva Inversion: "))
+
+distribution = portfolio_balancer(type,my_portfolio,to_add)
+
+for asset, amount in distribution.items():
+    print(f"Destinar a {asset}: ${amount:,.2f}")
+
