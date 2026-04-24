@@ -92,7 +92,7 @@ cursor.execute("""CREATE VIEW IF NOT EXISTS vw_otelo_portfolio AS
         printf('$%,.2f', variable_amt) AS Renta_Variable, 
         printf('$%,.2f', fixed_amt) AS Renta_Fija, 
         printf('$%,.2f', total_portfolio) AS Portafolio_Total, 
-        date 
+        date AS Fecha
         FROM portfolios
         WHERE user_id = 1
         ORDER BY date""")
@@ -101,11 +101,11 @@ cursor.execute("""CREATE VIEW IF NOT EXISTS vw_otelo_progress AS
         SELECT 
         id,
         investment_id AS Referencia,
+        date AS Fecha,
         emergency_fund AS Emergencias, 
         variable_amt AS Renta_Variable, 
         fixed_amt AS Renta_Fija, 
-        total_portfolio AS Portafolio_Total, 
-        date 
+        total_portfolio AS Portafolio_Total
         FROM portfolios
         WHERE (user_id = 1 AND plot = 1)
         ORDER BY date""")
