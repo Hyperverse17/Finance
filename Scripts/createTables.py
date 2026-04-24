@@ -57,8 +57,7 @@ CREATE TABLE IF NOT EXISTS investments (
     FOREIGN KEY (investor) REFERENCES users(id)
 )""")
 
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS portfolios(
+cursor.execute("""CREATE TABLE IF NOT EXISTS portfolios(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER,
     investment_id integer,
@@ -67,6 +66,7 @@ CREATE TABLE IF NOT EXISTS portfolios(
     variable_amt REAL,
     fixed_amt REAL,
     total_portfolio REAL,
+    plot BOOLEAN DEFAULT 1,
     last_update TIMESTAMP DEFAULT (datetime('now','localtime')),
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (investment_id) REFERENCES investments(id)
@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS parameters(
 )
 """)
 
-command = """CREATE VIEW vw_otelo_portfolio AS
+cursor.execute("""CREATE VIEW IF NOT EXISTS vw_otelo_portfolio AS
         SELECT 
         id,
         investment_id AS Referencia,
@@ -95,9 +95,20 @@ command = """CREATE VIEW vw_otelo_portfolio AS
         date 
         FROM portfolios
         WHERE user_id = 1
-        ORDER BY date;"""
+        ORDER BY date""")
         
-cursor.execute(command)
+cursor.execute("""CREATE VIEW IF NOT EXISTS vw_otelo_progress AS
+        SELECT 
+        id,
+        investment_id AS Referencia,
+        emergency_fund AS Emergencias, 
+        variable_amt AS Renta_Variable, 
+        fixed_amt AS Renta_Fija, 
+        total_portfolio AS Portafolio_Total, 
+        date 
+        FROM portfolios
+        WHERE (user_id = 1 AND plot = 1)
+        ORDER BY date""")
 
 # Guardar cambios y cerrar
 conn.commit()
