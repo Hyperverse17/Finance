@@ -329,7 +329,7 @@ def updatePortfolio(investor: Investor, investment_id: int):
     """Actualiza registros de la tabla portfolios"""
     values     = []
     totalValue = investor.getTotalPortfolio()
-    command    = f"INSERT INTO portfolios (user_id, investment_id, emergency_fund, variable_amt, fixed_amt, total_portfolio) VALUES (?, ?, ?, ?, ?, ?)"
+    command    = f"INSERT INTO portfolios (user_id, investment_id, emergency_fund, variable_amt, fixed_amt, total_portfolio, date) VALUES (?, ?, ?, ?, ?, ?, ?)"
 
     values.append(defaultId)
     values.append(investment_id)
@@ -337,6 +337,7 @@ def updatePortfolio(investor: Investor, investment_id: int):
     values.append(investor.variable_amt)
     values.append(investor.fixed_amt)
     values.append(totalValue)
+    values.append(date.today().isoformat())
     values = tuple(values)
 
     cursor.execute(command, values)

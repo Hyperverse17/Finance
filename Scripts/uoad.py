@@ -15,7 +15,7 @@ try:
     cursor.execute(command)
     conn.commit()
 
-    command = """SELECT id, investor, current_emergency, emergency_add, current_variable, variable_add, current_fixed, fixed_add, last_update FROM investments ORDER BY last_update""" 
+    command = """SELECT id, investor, current_emergency, emergency_add, current_variable, variable_add, current_fixed, fixed_add, date, last_update FROM investments ORDER BY id""" 
     print(command)
     cursor.execute(command)
 
@@ -33,10 +33,11 @@ try:
         values.append(round(investment[6] + investment[7],2))
         values.append(round(investment[4] + investment[5] + investment[6] + investment[7],2))
         values.append(investment[8])
+        values.append(investment[9])
 
         values = tuple(values)
         
-        command2 = """INSERT INTO portfolios (user_id, investment_id, emergency_fund, variable_amt, fixed_amt, total_portfolio, last_update) VALUES (?,?,?,?,?,?,?)"""
+        command2 = """INSERT INTO portfolios (user_id, investment_id, emergency_fund, variable_amt, fixed_amt, total_portfolio, date, last_update) VALUES (?,?,?,?,?,?,?,?)"""
         cursor.execute(command2,values)
         conn.commit()
 
