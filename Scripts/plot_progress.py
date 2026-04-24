@@ -3,6 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import os
 from matplotlib.ticker import StrMethodFormatter
+from datetime import datetime
 
 # Configurar rutas relativas
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -17,18 +18,20 @@ def generar_graficas():
         conn.close()
 
         # 2. Preparación de datos
+        fecha_actual = datetime.now().strftime("%B %Y")
         df['Fecha'] = pd.to_datetime(df['Fecha'])
         df = df.sort_values('Fecha')
 
         # --- ESTILO ---
         plt.style.use('seaborn-v0_8-darkgrid')
         # Definimos colores específicos
-        color_fija = 'tab:green'
-        color_variable = 'tab:orange'
-        color_total = '#9400D3' # Púrpura vibrante
-        color_emergencias = 'tab:blue'
+        color_fija = '#8ac926'
+        color_variable = '#ffca3a'
+        color_total = '#1982c4'
+        color_emergencias = '#ff595e'
 
         fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 11), sharex=True)
+        fig.canvas.manager.set_window_title(f"Progreso del Portafolios de Otelo - {fecha_actual}")
 
         # --- GRÁFICA 1: Inversiones y Total ---
         
