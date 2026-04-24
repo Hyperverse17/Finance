@@ -17,8 +17,8 @@ def main():
     print("\n  Opciones disponibles:\n")
     print("  1. Balance del dia (todaysBalance)")
     print("  2. Inversiones (toInvest)")
-    print("  3. Crear tablas en la base de datos")
-    print("  4. Pruebas basicas")
+    print("  3. Graficar Progreso")
+    print("  4. Graicar Distribucion")
     print("  0. Salir")
     print("\n" + "=" * 50)
     
@@ -30,22 +30,25 @@ def main():
             time.sleep(1)
             clear_screen()
             exec(open("scripts/todaysBalance.py").read())
+
         elif choice == "2":
             print("\n  Ejecutando Inversiones...")
             time.sleep(1)
             clear_screen()
             exec(open("scripts/toInvest.py").read())
+
         elif choice == "3":
-            print("\n  Creando tablas...")
-            exec(open("scripts/createTables.py").read())
-            print("  Tablas creadas exitosamente!")
+            print("\n  Graficando Progreso...")
+            exec(open("scripts/plot_progress.py", encoding="utf-8").read())
             input("\n  Presiona Enter para continuar...")
             main()
+
         elif choice == "4":
-            print("\n  Ejecutando pruebas basicas...")
-            exec(open("tests/basicTest.py").read())
+            print("\n  Graficando Distribucion...")
+            exec(open("scripts/plot_distribution.py", encoding="utf-8").read())
             input("\n  Presiona Enter para continuar...")
             main()
+
         elif choice == "0":
             print("\n  Hasta luego!\n")
             time.sleep(2)
