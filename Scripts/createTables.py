@@ -62,6 +62,7 @@ CREATE TABLE IF NOT EXISTS portfolios(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER,
     investment_id integer,
+    date DATE DEFAULT (date('now','localtime')),
     emergency_fund REAL,
     variable_amt REAL,
     fixed_amt REAL,
@@ -91,10 +92,10 @@ command = """CREATE VIEW vw_otelo_portfolio AS
         printf('$%,.2f', variable_amt) AS Renta_Variable, 
         printf('$%,.2f', fixed_amt) AS Renta_Fija, 
         printf('$%,.2f', total_portfolio) AS Portafolio_Total, 
-        last_update 
+        date 
         FROM portfolios
         WHERE user_id = 1
-        ORDER BY last_update DESC;"""
+        ORDER BY date;"""
         
 cursor.execute(command)
 
