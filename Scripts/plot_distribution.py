@@ -34,7 +34,7 @@ def graficar_distribucion():
         # --- ESTILO ---
         plt.style.use('seaborn-v0_8-whitegrid')
         fig, ax = plt.subplots(figsize=(9, 9))
-        fig.canvas.manager.set_window_title(f"Portafolios de Otelo - {fecha_actual}")
+        fig.canvas.manager.set_window_title(f"Portafolios de Otelo {fecha_actual}")
 
         # Dona
         wedges, texts, autotexts = ax.pie(

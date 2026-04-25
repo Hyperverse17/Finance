@@ -31,7 +31,7 @@ def generar_graficas():
         color_emergencias = '#ff595e'
 
         fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 11), sharex=True)
-        fig.canvas.manager.set_window_title(f"Progreso del Portafolios de Otelo - {fecha_actual}")
+        fig.canvas.manager.set_window_title(f"Progreso del Portafolios de Otelo {fecha_actual}")
 
         # --- GRÁFICA 1: Inversiones y Total ---
         
