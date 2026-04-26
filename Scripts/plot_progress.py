@@ -25,9 +25,9 @@ def generar_graficas():
         # --- ESTILO ---
         plt.style.use('seaborn-v0_8-darkgrid')
         # Definimos colores específicos
-        color_fija = '#8ac926'
+        color_fija = 'tab:cyan'
         color_variable = '#ffca3a'
-        color_total = '#1982c4'
+        color_total = '#8ac926'
         color_emergencias = '#ff595e'
 
         fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 11), sharex=True)
