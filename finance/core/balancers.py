@@ -1,32 +1,7 @@
 
-def get_variable_objectives(user_id:int) -> dict:
-    objectives = {}
-    if user_id == 1:
-        objectives['S&P500'] = 0.5 # los keys deben ser idénticos a los keys de my_portfolio
-        objectives['Emergentes'] = 0.4
-        objectives['Oro'] = 0.1
-        discriminant = sum(objectives.values())
-
-        if discriminant != 1:
-            raise ValueError
-        
-        return objectives
-    
-def get_fixed_objectives(user_id:int) -> dict:
-    objectives = {}
-    if user_id == 1:
-        objectives['CETES'] = 0.2
-        objectives['BONOS'] = 0.3
-        objectives['UDIBONOS'] = 0.5
-        discriminant = sum(objectives.values())
-
-        if discriminant != 1:
-            raise ValueError
-        
-        return objectives
-        
-            
-def portfolio_balancer(type, curr_portfolio, to_add):
+from data.databases.distributions import *
+                
+def portfolio_balancer(user_id:int, type:str, curr_portfolio:dict, to_add:float):
     """
     Calcula la distribución de una nueva inversión para acercarse a los pesos objetivos. 
     curr_portfolio: Diccionario con el valor actual en MXN/USD de cada activo.
@@ -34,9 +9,10 @@ def portfolio_balancer(type, curr_portfolio, to_add):
     """
     
     if type == "variable":
-        user_objectives = get_variable_objectives(1)
+        user_objectives = get_variable_objectives(user_id)
+
     elif type == "fixed":
-        user_objectives = get_fixed_objectives(1)
+        user_objectives = get_fixed_objectives(user_id)
         
     curr_portfolio_value = sum(curr_portfolio.values())
     final_portfolio_value = curr_portfolio_value + to_add
@@ -59,7 +35,7 @@ def portfolio_balancer(type, curr_portfolio, to_add):
     if total_needed > 0:
         for asset in needs:
             # Proporcionalizamos la nueva inversión según las necesidades detectadas
-            distribution[asset] = (needs[asset] / total_needed) * to_add
+            distribution[asset] = round((needs[asset] / total_needed) * to_add,2)
     
     return distribution
 

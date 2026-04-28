@@ -1,28 +1,28 @@
+try:
+    from finance.core.properties import * #<carpetaorigen>.<nombreArchivoPy>
+    from finance.core.functions import *
+    from finance.core.balancers import *
+    from finance.models.classes import noSuchRecord, dateError, updateDateError, greaterThanZeroError, zeroValueError
 
-from finance.core.balancers import portfolio_balancer
+    investor = getInvestorById(defaultId)
 
-print("\n ----- Balanceador de Renta Variable ----- \n")
+    curr_portfolio = {'S&P500':42021.08,
+                      'Emergentes':0.0,
+                      'Oro':0.0}
 
-my_portfolio = {}
+    to_add = float(input("\nCuanto deseas agregar: "))
 
-type = input("Fija/Variable (0,1): ")
+    print(portfolio_balancer(defaultId,"variable",curr_portfolio,to_add))
 
-if type == "0":
-    my_portfolio['CETES'] = float(input("Total en CETES: "))
-    my_portfolio['BONOS'] = float(input("Total en Bonos: "))
-    my_portfolio['UDIBONOS'] = float(input("Total UDIBonos: "))
-    type = "fixed"
-    
-elif type == "1":
-    my_portfolio['S&P500'] = float(input("Total en S&P500: "))
-    my_portfolio['Emergentes'] = float(input("Total en Mercados Emergentes: "))
-    my_portfolio['Oro'] = float(input("Total en Oro: "))
-    type = "variable"
+    curr_portfolio = {'UDIBONOS':0.0,
+                      'BONOS':0.0,
+                      'CETES':0.0}
 
-to_add = float(input("Nueva Inversion: "))
+    to_add = float(input("\nCuanto deseas agregar: "))
+    print(portfolio_balancer(defaultId,"fixed",curr_portfolio,to_add))
 
-distribution = portfolio_balancer(type,my_portfolio,to_add)
 
-for asset, amount in distribution.items():
-    print(f"Destinar a {asset}: ${amount:,.2f}")
-
+except:
+    pass
+finally:
+    pass
