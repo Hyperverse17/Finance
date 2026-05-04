@@ -2,7 +2,8 @@ try:
     import os
     import time
     import sqlite3
-    from finance.core.properties import goAhead, sStars, saveData, table1, defaultId #<carpetaorigen>.<nombreArchivoPy>
+    from .plot_progress import generar_graficas
+    from finance.core.properties import goAhead, sStars, saveData, defaultId, affirmative #<carpetaorigen>.<nombreArchivoPy>
     from finance.core.functions import splitter, investAdjust, WantToRepeat, getInvestorById, recordExistance, log, saveDataBase, wannaSave, updateInvestor, updatePortfolio
     from finance.models.classes import noSuchRecord, greaterThanZeroError
 
@@ -120,7 +121,13 @@ try:
             investor.fixed_amt      = (currFixed + cetesAmount)
             updateInvestor(investor)
             updatePortfolio(investor, newRec)
-            print(f"\nInformacion guardada en la base de datos con el ID: {newRec}")
+            print(f"Informacion guardada en la base de datos con el ID: {newRec}")
+
+            show = input("\nDeseas ver tu progreso? (y/n): ")
+            show = True if show in affirmative else False
+
+            if show:
+                generar_graficas()
 
         goAhead = WantToRepeat(goAhead)
         log(f"Repeat: {goAhead}",scriptName)
