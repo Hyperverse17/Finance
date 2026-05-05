@@ -122,8 +122,8 @@ def WantToRepeat(goAhead:bool) -> bool:
     os.system("pause")
     os.system("cls")
     if goAhead == True:
-        userAnswer = input("Deseas repetir el proceso? (s/n) 🤔 : ")
-        if userAnswer == 's' or userAnswer == 'S':
+        userAnswer = input("Deseas repetir el proceso? (s/n): ")
+        if userAnswer in affirmative:
             os.system("cls")
         else:
             goAhead = False
@@ -136,7 +136,7 @@ def wannaSave(goAhead:bool) -> bool:
     print()
     if goAhead == False:
         userAnswer = input("Deseas guardar esta info en la base de datos? (s/n): ")
-        if userAnswer == 's' or userAnswer == 'S':
+        if userAnswer in affirmative:
             goAhead = True
 
     return goAhead

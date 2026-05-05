@@ -20,7 +20,7 @@ defaultId  = int(input("\nId de usuario: "))
 ############### Operativos ############
 zero         = 0
 one          = 1
-affirmative  = ('Y', 'y', 'N', 'n')
+affirmative  = ('Y', 'y', 'S', 's')
 ########## Calculo con fechas ###########
 today         = date.today()    # Fecha de hoy
 dateTimeMark  = datetime.now()  # Objeto tipo date, time

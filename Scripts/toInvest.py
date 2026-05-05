@@ -37,11 +37,11 @@ try:
         
         justInvest   = input("Sólo Inversion (s/n)?   : ")
         
-        if justInvest == 's' or justInvest == 'S':
+        if justInvest in affirmative:
             justInvest   = True
             justVariable = input("Sólo Variable (s/n)?    : ")
             
-            if justVariable == 's' or justVariable == 'S':
+            if justVariable in affirmative:
                 justVariable = True
                 message1     = " (Sólo Variable)."
                 
