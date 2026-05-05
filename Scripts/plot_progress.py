@@ -1,18 +1,13 @@
-import sqlite3
 import pandas as pd
 import matplotlib.pyplot as plt
-import os
 from matplotlib.ticker import StrMethodFormatter
 from datetime import datetime
-
-# Configurar rutas relativas
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DB_PATH = os.path.join(BASE_DIR, '..', 'data', 'databases', 'MyFinances.db')
+from finance.core.db import get_connection
 
 def generar_graficas():
     try:
         # 1. Conexión y carga de datos
-        conn = sqlite3.connect(DB_PATH)
+        conn  = get_connection()
         query = "SELECT * FROM vw_otelo_progress"
         df = pd.read_sql_query(query, conn)
         conn.close()

@@ -3,17 +3,18 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import os
 from datetime import datetime
+from finance.core.db import get_connection
 
 # Configurar rutas relativas
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DB_PATH = os.path.join(BASE_DIR, '..', 'data', 'databases', 'MyFinances.db')
+
 # Crear carpeta de reportes si no existe
 REPORTS_DIR = os.path.join(BASE_DIR, '..', 'reports')
 os.makedirs(REPORTS_DIR, exist_ok=True)
 
 def graficar_distribucion():
     try:
-        conn = sqlite3.connect(DB_PATH)
+        conn  = get_connection()
         query = "SELECT Renta_Variable, Renta_Fija, Fecha FROM vw_otelo_progress ORDER BY Fecha DESC LIMIT 1"
         df = pd.read_sql_query(query, conn)
         conn.close()
