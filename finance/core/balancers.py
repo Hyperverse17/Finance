@@ -1,6 +1,6 @@
-
+from finance.models.classes import Investor
 from data.databases.distributions import *
-                
+
 def portfolio_balancer(user_id:int, type:str, curr_portfolio:dict, to_add:float):
     """
     Calcula la distribución de una nueva inversión para acercarse a los pesos objetivos. 
