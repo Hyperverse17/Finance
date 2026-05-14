@@ -219,44 +219,34 @@ def splitter(total,monthly,mode):
     return emerPerc, nextLevel
 
 @functionLog
-def investAdjust(currVariable:float, currFixed:float, toAdd:float, variablePer:int):
-    """Funcion que determina cuando destinar a Renta Variable y Renta Fija"""
+def investAdjust(curr_var: float, curr_fix: float, to_add: float, var_per: int):
+    """Determina la distribución de nuevo capital para alcanzar el balance objetivo."""
+    # 1. Calcular el nuevo total teórico y los montos objetivos
+    target_var_per = var_per / 100
+    total_after = curr_var + curr_fix + to_add
+    
+    obj_var = total_after * target_var_per
+    obj_fix = total_after * (1 - target_var_per)
 
-    fixedPer     = 100-variablePer
-    investTotal  = currVariable + currFixed
-    shldVariable = investTotal*(variablePer/100)
-    shldFixed    = investTotal*(fixedPer/100)
-        
-    variableDiff = shldVariable-currVariable
-    fixedDiff    = shldFixed-currFixed
-            
-    toAddVariable = toAdd*(variablePer/100)
-    toAddFixed    = toAdd*(fixedPer/100)
+    # 2. Determinar cuánto falta para llegar al objetivo (Shortfall)
+    # Si el resultado es negativo, significa que ya estamos sobreponderados
+    need_var = max(0, obj_var - curr_var)
+    need_fix = max(0, obj_fix - curr_fix)
 
-    toInvestVar   = toAddVariable + variableDiff
-    toInvestFixed = toAddFixed + fixedDiff
+    # 3. Ajuste proporcional si el capital no alcanza para cubrir ambos déficits
+    # O si el rebalanceo requiere más de lo que vamos a inyectar (sin vender activos)
+    total_needed = need_var + need_fix
+    
+    if total_needed > 0:
+        # Escala los montos para que la suma sea exactamente to_add
+        to_invest_var = (need_var / total_needed) * to_add
+        to_invest_fix = (need_fix / total_needed) * to_add
+    else:
+        # Caso borde: El portafolio está perfecto o to_add es 0
+        to_invest_var = to_add * target_var_per
+        to_invest_fix = to_add * (1 - target_var_per)
 
-    if toInvestVar <= 0 and toInvestFixed > 0:
-            print(f"Atencion en Renta Fija")
-            if toAdd <= shldFixed:
-                toInvestFixed = toAdd
-                toInvestVar   = 0
-
-            elif toAdd > shldFixed:
-                toInvestFixed = shldFixed
-                toInvestVar   = toAdd - shldFixed
-
-    elif toInvestVar > 0 and toInvestFixed <= 0:
-        print("Atencion en Renta Variable")
-        if toAdd <= shldVariable:
-            toInvestVar   = toAdd
-            toInvestFixed = 0
-
-        elif toAdd > shldVariable:
-            toInvestVar   = shldVariable
-            toInvestFixed = toAdd - shldVariable
-
-    return toInvestVar, toInvestFixed
+    return to_invest_var, to_invest_fix
 
 @functionLog
 def saveDataBase(investor: Investor,emergencies,mdgs,currVariable,curFixed,working,emerAmount,emerPer,investment,invPerc,varAmount,fixedAmount,comments) -> int:
