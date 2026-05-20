@@ -70,15 +70,6 @@ try:
         
 #       Cálculos
         emerPerc, nextLevel = splitter(emerFunds,monthly,justInvest)
-        toJump = nextLevel-emerFunds
-           
-        if toAdd > toJump:
-            log("*** Ajuste Fondo de Emergencias ***",scriptName)
-            log(f"Se agrega            : ${toJump:,.2f}",scriptName)
-            print(f"Primero agrega ${toJump:,.2f} a Emergencias y después")
-            toAdd     = toAdd - toJump
-            emerFunds = emerFunds + toJump
-            emerPerc, nextLevel = splitter(emerFunds,monthly,justInvest)
         
         log(f"Se trabaja con       : ${toAdd:,.2f}",scriptName)
             
