@@ -1,4 +1,5 @@
 from datetime import datetime
+from data.databases.distributions import *
 class User:
     """Usuarios del sistema"""
     def __init__(self, id: int | None, name: str, last_name: str, birthday:str, gender:str, email:str):
@@ -47,6 +48,21 @@ class Investor(User):
         """Devuelve la suma de variable amount y fixed amount"""
         totalPortfolio = round(self.variable_amt + self.fixed_amt,2)
         return totalPortfolio
+    
+    def variable_objectives(self):
+        try:
+            self.variable_objectives = get_variable_objectives(self.id)
+            return self.variable_objectives
+        except ValueError as error:
+            print(error)
+
+    def fixed_objectives(self):
+        try:
+            self.fixed_objectives = get_fixed_objectives(self.id)
+            return self.fixed_objectives
+        except ValueError as error:
+            print(error)
+
         
 class Investment():
     pass
