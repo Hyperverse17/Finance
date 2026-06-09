@@ -5,8 +5,12 @@ try:
     from finance.core.balancers import *
 
     investor = getInvestorById(defaultId)
-    to_add = float(input(f"\n ----- Bienvenido, {investor.name} ----\n\nCuanto deseas agregar: "))
-    mode = input("Renta Fija o Variable (F/V): ").upper()
+    print(f"\n ----- Bienvenido, {investor.name} ----- ")
+    mode = input("\nInversión en Renta Fija o Variable (F/V) : ").upper() 
+    to_add = float(input("Cuanto deseas agregar                    : "))
+    if to_add <= 0:
+        raise ValueError("Monto No Válido")
+    
     os.system("cls")
     print(f"\nObteniendo objetivos de {investor.name}...")
     if mode in ('F','FIJA'):
@@ -26,12 +30,14 @@ try:
     
     user_distribution = portfolio_balancer(defaultId,mode,user_current_portfolio,to_add)
 
-    os.system("pause")
     os.system("cls")
     
     print("\n----- Distribuye de la siguiente manera -----\n")
     for asset, amount in user_distribution.items():
         print(f"{asset.capitalize()}: ${amount:,.2f}")
+
+    print(f"--------------------\nTotal: ${to_add:,.2f}\n")
+    os.system("pause")
 
 except ValueError as e:
     print(e)
