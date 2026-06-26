@@ -38,12 +38,21 @@ try:
     os.system("cls")
     
     print("\n----- Distribuye de la siguiente manera -----\n")
+
     for asset, amount in user_distribution.items():
         print(f"{asset.capitalize()}: ${amount:,.2f}")
 
     print(f"--------------------\nTotal: ${to_add:,.2f}\n")
     os.system("pause")
+    os.system("cls")
+    print("\n--------- Porcentajes ---------- \n------ Esperado V.S. Real ------\n")
 
+    total_portfolio = round(sum(user_current_portfolio.values()) + to_add,2)
+    for asset, amount in user_distribution.items():
+        expected_perc = round(user_objectives[asset]*100,2)
+        actual_perc = round(((user_current_portfolio[asset] + amount)/total_portfolio*100),2)
+        print(f"{asset.capitalize()}: {expected_perc}% V.S. {actual_perc}%")
+    
 except ValueError as e:
     print(e)
 
