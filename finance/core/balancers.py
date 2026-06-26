@@ -13,7 +13,10 @@ def portfolio_balancer(user_id:int, type:str, curr_portfolio:dict, to_add:float)
 
     elif type == "fixed":
         user_objectives = get_fixed_objectives(user_id)
-        
+
+    elif type == "other":
+        user_objectives = get_other_objectives(user_id)
+               
     curr_portfolio_value = sum(curr_portfolio.values())
     final_portfolio_value = curr_portfolio_value + to_add
     

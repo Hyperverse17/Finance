@@ -63,6 +63,13 @@ class Investor(User):
         except ValueError as error:
             print(error)
 
+    def other_objectives(self):
+        try:
+            self.other_objectives = get_other_objectives(self.id)
+            return self.other_objectives
+        except ValueError as error:
+            print(error)
+
         
 class Investment():
     pass

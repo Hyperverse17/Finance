@@ -8,6 +8,7 @@ try:
     print(f"\n ----- Bienvenido, {investor.name} ----- ")
     mode = input("\nInversión en Renta Fija o Variable (F/V) : ").upper() 
     to_add = float(input("Cuanto deseas agregar                    : "))
+    
     if to_add <= 0:
         raise ValueError("Monto No Válido")
     
@@ -17,9 +18,13 @@ try:
         user_objectives = investor.fixed_objectives()
         mode = "fixed"
 
-    if mode in ('V','VARIABLE'):
+    elif mode in ('V','VARIABLE'):
         user_objectives = investor.variable_objectives()
         mode = "variable"
+
+    else:
+        user_objectives = investor.other_objectives()
+        mode = "other"
 
     user_current_portfolio   = {}
 
