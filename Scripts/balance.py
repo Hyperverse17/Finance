@@ -7,8 +7,10 @@ try:
     investor = getInvestorById(defaultId)
     print(f"\n ----- Bienvenido, {investor.name} ----- ")
     mode = input("\nInversión en Renta Fija o Variable (F/V) : ").upper() 
-    to_add = float(input("Cuanto deseas agregar                    : "))
     
+    to_add = input("Cuanto deseas agregar                    : ")
+    to_add = 0 if to_add == "" else float(to_add)
+
     if to_add <= 0:
         raise ValueError("Monto No Válido")
     
@@ -30,7 +32,8 @@ try:
 
     print("Obteniendo Portafolios actual...\n")
     for asset, weight in user_objectives.items():
-        asset_amt = float(input(f"Ingresa total en {asset.capitalize()}: "))
+        asset_amt = input(f"Ingresa total en {asset.capitalize()}: ")
+        asset_amt = 0 if asset_amt == "" else float(asset_amt)
         user_current_portfolio[asset] = round(asset_amt,2)
     
     user_distribution = portfolio_balancer(defaultId,mode,user_current_portfolio,to_add)
@@ -47,11 +50,18 @@ try:
     os.system("cls")
     print("\n--------- Porcentajes ---------- \n------ Esperado V.S. Real ------\n")
 
-    total_portfolio = round(sum(user_current_portfolio.values()) + to_add,2)
+    total_portfolio = sum(user_current_portfolio.values()) + to_add
+
     for asset, amount in user_distribution.items():
-        expected_perc = round(user_objectives[asset]*100,2)
-        actual_perc = round(((user_current_portfolio[asset] + amount)/total_portfolio*100),2)
-        print(f"{asset.capitalize()}: {expected_perc}% V.S. {actual_perc}%")
+    # Multiplicamos por 100, pero dejamos que el F-string maneje el redondeo
+        expected_perc = user_objectives[asset] * 100
+        actual_perc = ((user_current_portfolio[asset] + amount) / total_portfolio) * 100
+    
+    # FORMATO:
+    # {asset.capitalize():<15} -> Nombre alineado a la izquierda, ancho de 15 caracteres.
+    # {expected_perc:>6.1f}%   -> Esperado alineado a la derecha, ancho de 6, 1 decimal.
+    # {actual_perc:>6.2f}%     -> Real alineado a la derecha, ancho de 6, 2 decimales.
+        print(f"{asset.capitalize():<15}: {expected_perc:>6.2f}% - {actual_perc:>6.2f}%")
     
 except ValueError as e:
     print(e)

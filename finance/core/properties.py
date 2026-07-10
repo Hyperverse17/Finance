@@ -31,6 +31,7 @@ sStars      = "*****************"
 sDottedLine = "---------------------------------"
 fmtCnt      = zero
 null        = ""
+str_width   = 15
 ####### Propiedades Calculadora Interes compuesto #######
 T = 7.75   # Tasa anualizada
 incrementDay = 15 # cada cuantos dias hay incremento
