@@ -343,6 +343,9 @@ def updateDates():
         os.system("cls")
         values = []
         paymentDate = input("Ingresa Fecha de Pago         : ")
+        if paymentDate == "":
+            paymentDate = today.strftime("%Y-%m-%d")
+
         nextPaymentDate = input("Ingresa Fecha de Próximo Pago : ")
         budget = input("Ingresa Presupuesto           : ")
         command = """INSERT INTO parameters (payment_day, next_payment_day, free_spending, user_id) VALUES (?, ?, ?, ?);"""
