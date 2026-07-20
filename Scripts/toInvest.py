@@ -5,7 +5,7 @@ try:
     from .plot_progress import generar_graficas
     from finance.core.properties import goAhead, sStars, saveData, defaultId, affirmative #<carpetaorigen>.<nombreArchivoPy>
     from finance.core.functions import splitter, investAdjust, WantToRepeat, getInvestorById, recordExistance, log, saveDataBase, wannaSave, updateInvestor, updatePortfolio
-    from finance.models.classes import noSuchRecord, greaterThanZeroError
+    from finance.models.classes import Investment, noSuchRecord, greaterThanZeroError
 
     scriptName = "toInvest.py" # os.path.basename(__file__)
     log(sStars*3,scriptName)
@@ -76,12 +76,8 @@ try:
         emergencias                = toAdd*(emerPerc/100) # Total para emergencias
         inversion                  = toAdd*((1-(emerPerc/100))) # Total pra inversiones
         
-        if justVariable == True:
-            variablePer = 100
-        else:
-            variablePer = (investRule-age)
-        
-        toInvestVar, toInvestFixed = investAdjust(currVariable, currFixed, inversion, variablePer) # Renta variable y renta fija
+        investment = Investment(investor.age, investor.investment_rule, currVariable, currFixed, inversion)
+        toInvestVar, toInvestFixed = investment.fixed_variable(justVariable)
          
         emerAmount  = round(emergencias,2)
         etfAmount   = round(toInvestVar,2)
@@ -91,8 +87,8 @@ try:
         print(f"{emerPerc}% a Emergencias y {(100-emerPerc)}% a Inversiones")
         log(f"Emergencias          : {round(emerPerc,2)}%",scriptName)
         log(f"Inversiones          : {round(100-(emerPerc),2)}%",scriptName)
-        log(f"  - Renta variable   : {round(variablePer,2)}%",scriptName)
-        log(f"  - Renta fija       : {round((100-variablePer),2)}%",scriptName)
+        log(f"  - Renta variable   : {round(investment.target_var_per*100,2)}%",scriptName)
+        log(f"  - Renta fija       : {round((100-(investment.target_var_per*100)),2)}%",scriptName)
         print(log("",scriptName))
         print(log(f"Emergencias          : ${emerAmount:,.2f}",scriptName))
         print("Inversiones")

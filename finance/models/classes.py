@@ -70,9 +70,48 @@ class Investor(User):
         except ValueError as error:
             print(error)
 
-        
 class Investment():
-    pass
+    def __init__(self, investor_age:int, investment_rule:int, curr_variable:float, curr_fixed:float, to_add:float) -> None:
+        self.investment_rule = investment_rule
+        self.investor_age = investor_age 
+        self.curr_variable = curr_variable
+        self.curr_fixed = curr_fixed
+        self.to_add = to_add
+        self.curr_total = self.curr_variable + self.curr_fixed 
+      
+    def fixed_variable(self, justVariable: bool):
+        """Determina la distribución de nuevo capital para alcanzar el balance objetivo."""
+        # 1. Calcular el nuevo total teórico y los montos objetivos
+
+        if justVariable == True:
+            self.target_var_per = 1
+        else:
+            self.target_var_per = (self.investment_rule - self.investor_age) / 100
+        
+        total_after = self.curr_variable + self.curr_fixed + self.to_add
+    
+        obj_var = total_after * self.target_var_per
+        obj_fix = total_after * (1 - self.target_var_per)
+
+        # 2. Determinar cuánto falta para llegar al objetivo (Shortfall)
+        # Si el resultado es negativo, significa sobreponderación
+        need_var = max(0, obj_var - self.curr_variable)
+        need_fix = max(0, obj_fix - self.curr_fixed)
+
+        # 3. Ajuste proporcional si el capital no alcanza para cubrir ambos déficits
+        # O si el rebalanceo requiere más de lo que vamos a inyectar (sin vender activos)
+        total_needed = need_var + need_fix
+    
+        if total_needed > 0:
+            # Escala los montos para que la suma sea exactamente to_add
+            to_invest_var = (need_var / total_needed) * self.to_add
+            to_invest_fix = (need_fix / total_needed) * self.to_add
+        else:
+            # Caso borde: El portafolio está perfecto o to_add es 0
+            to_invest_var = self.to_add * self.target_var_per
+            to_invest_fix = self.to_add * (1 - self.target_var_per)
+
+        return to_invest_var, to_invest_fix
 
 # Errors
 class updateDateError(Exception):
