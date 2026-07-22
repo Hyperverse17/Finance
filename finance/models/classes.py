@@ -71,24 +71,11 @@ class Investor(User):
             print(error)
 
 class Investment():
-    def __init__(self, investor_age:int, investment_rule:int, curr_variable:float, curr_fixed:float, to_add:float) -> None:
-        self.investment_rule = investment_rule
-        self.investor_age = investor_age 
-        self.curr_variable = curr_variable
-        self.curr_fixed = curr_fixed
-        self.total_add = to_add
-        self.curr_portfolio_value = self.curr_variable + self.curr_fixed
-        self.target_var_per = None
-        self.target_fix_per = None
-        self.new_variable = None
-        self.new_fixed = None
-        self.new_portfolio_value = None
-      
-    def fixed_variable(self, justVariable: bool):
+    def _get_fixed_variable(self):
         """Determina la distribución de nuevo capital para alcanzar el balance objetivo."""
+        self.curr_portfolio_value = self.curr_variable + self.curr_fixed
         # 1. Calcular el nuevo total teórico y los montos objetivos
-
-        if justVariable == True:
+        if self.just_variable == True:
             self.target_var_per = 1
             self.target_fix_per = 0
         else:
@@ -111,17 +98,34 @@ class Investment():
     
         if total_needed > 0:
             # Escala los montos para que la suma sea exactamente to_add
-            to_invest_var = (need_var / total_needed) * self.total_add
-            to_invest_fix = (need_fix / total_needed) * self.total_add
+            self.variable_add = (need_var / total_needed) * self.total_add
+            self.fixed_add = (need_fix / total_needed) * self.total_add
         else:
             # Caso borde: El portafolio está perfecto o to_add es 0
-            to_invest_var = self.total_add * self.target_var_per
-            to_invest_fix = self.total_add * self.target_fix_per
+            self.variable_add = self.total_add * self.target_var_per
+            self.fixed_add = self.total_add * self.target_fix_per
 
-        self.new_variable = self.curr_variable + to_invest_var
-        self.new_fixed = self.curr_fixed + to_invest_fix
+        self.new_variable = self.curr_variable + self.variable_add
+        self.new_fixed = self.curr_fixed + self.fixed_add
 
-        return to_invest_var, to_invest_fix
+        return self.variable_add, self.fixed_add
+    
+    def __init__(self, investor_age:int, investment_rule:int, curr_variable:float, curr_fixed:float, to_add:float, justvariable: bool) -> None:
+        self.investment_rule = investment_rule
+        self.investor_age = investor_age 
+        self.curr_variable = curr_variable
+        self.curr_fixed = curr_fixed
+        self.total_add = to_add
+        self.just_variable = justvariable
+        self._get_fixed_variable()
+        self.curr_variable_perc = round(self.curr_variable/self.curr_portfolio_value,2) if self.curr_portfolio_value > 0 else 0    
+        self.curr_fixed_perc = round(self.curr_fixed/self.curr_portfolio_value,2) if self.curr_portfolio_value > 0 else 0
+        self.new_variable_perc = round(self.new_variable/self.new_portfolio_value,2)
+        self.new_fixed_perc = round(self.new_fixed/self.new_portfolio_value,2)
+        
+
+    def __str__(self) -> str:
+        return f"Inversion en renta fija y renta variable para una persona de {self.investor_age} años usando la regla del {self.investment_rule} %."
 
 # Errors
 class updateDateError(Exception):
