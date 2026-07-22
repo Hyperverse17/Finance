@@ -76,8 +76,13 @@ class Investment():
         self.investor_age = investor_age 
         self.curr_variable = curr_variable
         self.curr_fixed = curr_fixed
-        self.to_add = to_add
-        self.curr_total = self.curr_variable + self.curr_fixed 
+        self.total_add = to_add
+        self.curr_portfolio_value = self.curr_variable + self.curr_fixed
+        self.target_var_per = None
+        self.target_fix_per = None
+        self.new_variable = None
+        self.new_fixed = None
+        self.new_portfolio_value = None
       
     def fixed_variable(self, justVariable: bool):
         """Determina la distribución de nuevo capital para alcanzar el balance objetivo."""
@@ -85,18 +90,20 @@ class Investment():
 
         if justVariable == True:
             self.target_var_per = 1
+            self.target_fix_per = 0
         else:
             self.target_var_per = (self.investment_rule - self.investor_age) / 100
+            self.target_fix_per = (1 - self.target_var_per)
         
-        total_after = self.curr_variable + self.curr_fixed + self.to_add
+        self.new_portfolio_value = self.curr_variable + self.curr_fixed + self.total_add
     
-        obj_var = total_after * self.target_var_per
-        obj_fix = total_after * (1 - self.target_var_per)
+        var_target = self.new_portfolio_value * self.target_var_per
+        fix_target = self.new_portfolio_value * self.target_fix_per
 
         # 2. Determinar cuánto falta para llegar al objetivo (Shortfall)
         # Si el resultado es negativo, significa sobreponderación
-        need_var = max(0, obj_var - self.curr_variable)
-        need_fix = max(0, obj_fix - self.curr_fixed)
+        need_var = max(0, var_target - self.curr_variable)
+        need_fix = max(0, fix_target - self.curr_fixed)
 
         # 3. Ajuste proporcional si el capital no alcanza para cubrir ambos déficits
         # O si el rebalanceo requiere más de lo que vamos a inyectar (sin vender activos)
@@ -104,12 +111,15 @@ class Investment():
     
         if total_needed > 0:
             # Escala los montos para que la suma sea exactamente to_add
-            to_invest_var = (need_var / total_needed) * self.to_add
-            to_invest_fix = (need_fix / total_needed) * self.to_add
+            to_invest_var = (need_var / total_needed) * self.total_add
+            to_invest_fix = (need_fix / total_needed) * self.total_add
         else:
             # Caso borde: El portafolio está perfecto o to_add es 0
-            to_invest_var = self.to_add * self.target_var_per
-            to_invest_fix = self.to_add * (1 - self.target_var_per)
+            to_invest_var = self.total_add * self.target_var_per
+            to_invest_fix = self.total_add * self.target_fix_per
+
+        self.new_variable = self.curr_variable + to_invest_var
+        self.new_fixed = self.curr_fixed + to_invest_fix
 
         return to_invest_var, to_invest_fix
 
