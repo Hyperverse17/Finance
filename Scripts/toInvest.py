@@ -11,6 +11,7 @@ try:
     log(sStars*3,scriptName)
     log("Obteniendo inversor...",scriptName)
     investor   = getInvestorById(defaultId)
+    
     if investor is None:
         raise noSuchRecord
     else:    
@@ -76,8 +77,10 @@ try:
         emergencias                = toAdd*(emerPerc/100) # Total para emergencias
         inversion                  = toAdd*((1-(emerPerc/100))) # Total pra inversiones
         
-        investment = Investment(investor.age, investor.investment_rule, currVariable, currFixed, inversion)
-        toInvestVar, toInvestFixed = investment.fixed_variable(justVariable)
+        investment = Investment(investor.age, investor.investment_rule, currVariable, currFixed, inversion, justVariable)
+
+        toInvestVar   = investment.variable_add
+        toInvestFixed = investment.fixed_add
          
         emerAmount  = round(emergencias,2)
         etfAmount   = round(toInvestVar,2)
