@@ -107,8 +107,6 @@ class Investment():
 
         self.new_variable = self.curr_variable + self.variable_add
         self.new_fixed = self.curr_fixed + self.fixed_add
-
-        return self.variable_add, self.fixed_add
     
     def __init__(self, investor_age:int, investment_rule:int, curr_variable:float, curr_fixed:float, to_add:float, justvariable: bool) -> None:
         self.investment_rule = investment_rule
