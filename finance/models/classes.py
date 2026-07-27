@@ -1,5 +1,6 @@
-from datetime import datetime
+from datetime import datetime, date
 from data.databases.distributions import *
+from finance.core.properties import today
 class User:
     """Usuarios del sistema"""
     def __init__(self, id: int | None, name: str, last_name: str, birthday:str, gender:str, email:str):
@@ -121,10 +122,66 @@ class Investment():
         self.new_variable_perc = round(self.new_variable/self.new_portfolio_value,2)
         self.new_fixed_perc = round(self.new_fixed/self.new_portfolio_value,2)
         
-
     def __str__(self) -> str:
         return f"Inversion en renta fija y renta variable para una persona de {self.investor_age} años usando la regla del {self.investment_rule} %."
+    
+class Budget():
+    def _calculate_days(self):
+        self.elapsed = self.today - self.payment_day
+        self.all = self.next_payment_day - self.payment_day
+        self.remaining = self.all - self.elapsed
 
+        if self.all.days == 0:
+            raise ValueError("Ajustar Fechas de Pago y Proximo Pago")
+
+        if self.elapsed.days > self.all.days:
+            raise ValueError("Actualizar Fechas de Pago y Proximo Pago")
+
+    def _calculate_budget(self):
+        self.daily_budget = round(self.total_budget/self.all.days,2)
+        self.should_amount = round((self.daily_budget*(self.all.days - self.elapsed.days)),2)
+
+    def __init__(self, total_budget:float, payment_day:date, next_payment_day:date):
+        if total_budget > 0:
+            self.total_budget = total_budget
+        else:
+            raise ValueError("El presupuesto debe ser positivo")
+        
+        self.today = today
+        self.payment_day = payment_day
+        self.next_payment_day = next_payment_day
+        self._calculate_days()
+        self._calculate_budget()
+
+    def status(self, current:float) -> str:
+        """Indica el estatus del dia"""
+        if self.remaining.days == 1:
+            message = f"Dia final, hoy puedes gastar todo."
+
+        else:
+            difference = current - self.should_amount
+            self.total_for_today = self.daily_budget + difference
+        
+            if difference >= 0:
+                if difference > 0:
+                    message = f"Hoy puedes gastar tus ${self.daily_budget:,.2f} mas ${difference:,.2f} (${self.total_for_today:,.2f} en total)."
+
+                if difference == 0:
+                    message = f"Hoy solo puedes gastar tus ${self.daily_budget:,.2f} diarios."
+
+            else:
+                if self.total_for_today > 0 and self.total_for_today < self.daily_budget:
+                    message = f"Hoy solo tienes ${self.total_for_today:,.2f}."
+
+                elif self.total_for_today <= 0:
+                    message = "Mejor no gastes hoy."
+
+            return message
+
+    def __str__(self) -> str:
+        return f"Distribucion de ${self.total_budget:,.2f} durante {self.all.days} dias."
+
+    
 # Errors
 class updateDateError(Exception):
     def __init__(self) -> None:
