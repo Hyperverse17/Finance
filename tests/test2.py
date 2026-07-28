@@ -14,7 +14,7 @@ try:
     
     user_budget = Budget(totalBudget, paymentDay, nextPayDay)
     print("\n" + user_budget.__str__())
-    print(f"Hoy es: {user_budget.today}")
+    print(f"Dia : {user_budget.current_day} de {user_budget.all.days}")
     print(f"Han pasado {user_budget.elapsed.days} de {user_budget.all.days} Dias")
     print(f"Restan: {user_budget.remaining.days} Dias")
     print(f"Presupuesto Diario: ${user_budget.daily_budget:,.2f}")

@@ -1,10 +1,9 @@
 try:
     import time
     import os
-    import math
     from finance.core.properties import * #<carpetaorigen>.<nombreArchivoPy>
     from finance.core.functions import *
-    from finance.models.classes import noSuchRecord, dateError, updateDateError, greaterThanZeroError, zeroValueError
+    from finance.models.classes import noSuchRecord, Budget
 
     scriptName = "todaysBalance.py" # os.path.basename(__file__)
     log(sStars*3,scriptName)
@@ -20,28 +19,26 @@ try:
         nextPayDay  = datetime.strptime(getParameters(defaultId,2), "%Y-%m-%d").date()
         totalBudget = float(getParameters(defaultId,3))
 
-    deltaDays1 = today-paymentDay # Diferencia entre fechas [Tipo Date]
-    deltaDays2 = nextPayDay-paymentDay
-
-    elapsedDays   = deltaDays1.days # el atributo .days devuelve un entero operable
-    daysDuration  = deltaDays2.days
-
-    remainingDays = daysDuration-elapsedDays
-    currDay       = elapsedDays + one
-
-    dailyBudget = round(totalBudget/daysDuration,2)
+    budget = Budget(totalBudget, paymentDay, nextPayDay)
+    currDay = budget.current_day
+    elapsedDays = budget.elapsed.days
+    daysDuration = budget.all.days
+    remainingDays = budget.remaining.days
 
     while goAhead:
         print()
         print(sStars + " Calculos del dia " + str(currDay) +" ("+ sDateMarkFmt + ") " + sStars)
         print(f"                         Hola, {name}!")
         print()
-        if remainingDays >= one:
+        if budget.remaining.days >= one:
             currentAmount, tddAmt = addition()
+            budget.status(currentAmount)
             if currentAmount > 0:
                 os.system("cls")
-                shouldAmount     = totalBudget-(dailyBudget*elapsedDays)
-                difference       = currentAmount-shouldAmount
+                shouldAmount     = budget.should_amount
+                difference       = budget.difference
+                dailyBudget      = budget.daily_budget
+
                 to_add_substract, action, origin = to_add_substract(dailyBudget, difference, tddAmt)
                 print()
                 print(log("Calculos del dia " + str(currDay) +" ("+ sDateMarkFmt + ")",scriptName))
@@ -76,9 +73,9 @@ try:
                 print(log("{action} ${amount:,.2f} {origin} tu TDD".format(action=action, amount=abs(to_add_substract), origin=origin),scriptName))
                 
             else:
-                raise zeroValueError  
+                pass
         else:
-            raise dateError
+            pass
         
         goAhead = WantToRepeat(goAhead)
 
@@ -86,13 +83,6 @@ except noSuchRecord as e:
     os.system("cls")
     print()
     print(log(f"{e}: {defaultId}",scriptName))
-
-except(greaterThanZeroError):
-    print(log(zeroValueError.message,scriptName))
-
-except(updateDateError):
-    print(log(dateError.message,scriptName))
-    print(updateDates())
 
 except(FileNotFoundError) as error:
     print("Parece que algo salio mal con el archivo")

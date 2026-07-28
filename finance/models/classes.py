@@ -130,6 +130,8 @@ class Budget():
         self.elapsed = self.today - self.payment_day
         self.all = self.next_payment_day - self.payment_day
         self.remaining = self.all - self.elapsed
+        current = self.today - self.payment_day
+        self.current_day = current.days + 1
 
         if self.all.days == 0:
             raise ValueError("Ajustar Fechas de Pago y Proximo Pago")
@@ -159,14 +161,14 @@ class Budget():
             message = f"Dia final, hoy puedes gastar todo."
 
         else:
-            difference = current - self.should_amount
-            self.total_for_today = self.daily_budget + difference
+            self.difference = current - self.should_amount
+            self.total_for_today = self.daily_budget + self.difference
         
-            if difference >= 0:
-                if difference > 0:
-                    message = f"Hoy puedes gastar tus ${self.daily_budget:,.2f} mas ${difference:,.2f} (${self.total_for_today:,.2f} en total)."
+            if self.difference >= 0:
+                if self.difference > 0:
+                    message = f"Hoy puedes gastar tus ${self.daily_budget:,.2f} mas ${self.difference:,.2f} (${self.total_for_today:,.2f} en total)."
 
-                if difference == 0:
+                if self.difference == 0:
                     message = f"Hoy solo puedes gastar tus ${self.daily_budget:,.2f} diarios."
 
             else:
